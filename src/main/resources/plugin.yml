@@ -1,0 +1,15 @@
+name: PolarEconomy
+version: '${project.version}'
+main: me.polardyth.polareconomy.PolarEconomy
+api-version: '1.20'
+author: PolarDyth
+commands:
+  balance:
+    description: Check your balance.
+  pay:
+    description: Pay another player.
+    usage: /pay <player> <amount>
+  setbalance:
+    description: Set a player's balance (admin only).
+    usage: /setbalance <player> <amount>
+    permission: polareconomy.setbalance
