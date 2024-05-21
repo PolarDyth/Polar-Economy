@@ -1,19 +1,74 @@
+# SimpleEconomy Plugin Configuration
+
+# This plugin uses the Adventure API for color coding messages.
+# Use the following format for colors:
+# <color>text</color>
+# Example: <red>This is red text</red>
+# Available colors include: red, green, yellow, gold, blue, aqua, white, gray, dark_red, dark_green, dark_blue, etc.
+# You can find a website that shows you what your text looks like in real time: https://webui.advntr.dev/
+
+# Section for error messages shown to players when something goes wrong.
 error-messages:
-  negative-number: 'Amount cannot be negative'
-  not-number: 'Invalid Amount'
-  not-player: 'Only players can use this command.'
-  permission-error: 'You do not have permission to use this command.'
+  # Message shown when a player tries to enter a negative amount.
+  negative-number: '<red>Amount cannot be negative.</red>'
 
+  # Message shown when a player enters an invalid (non-numeric) amount.
+  not-number: '<red>Invalid Amount.</red>'
+
+  # Message shown when a non-player entity (like the console) tries to use a player-only command.
+  not-player: '<red>Only players can use this command.</red>'
+
+  # Message shown when a player does not have the required permission to use a command.
+  permission-error: '<red>You do not have permission to use this command.</red>'
+
+  # Message shown when the specified player cannot be found.
+  player-not-found: '<red>Player not found.</red>'
+
+# Section for the balance command configuration.
 balance:
-  success-message: 'Your balance is {balance}'
+  # Message shown to the player when they check their balance.
+  # {balance} will be replaced with the player's current balance.
+  balance-message: '<green>Your balance is <gold>{balance}</gold>.</green>'
 
+  # Usage message shown when the player uses the balance command incorrectly.
+  usage: '<yellow>Usage: /balance [player]</yellow>'
+
+# Section for the pay command configuration.
 pay:
-  success-to-player: 'You paid {amount} to {target}.'
-  success-to-target: 'You received {amount} from {player}.'
-  error:
-    inefficient-funds: 'You do not have the required funds.'
+  # Message shown to the payer when a payment is successful.
+  # {amount} will be replaced with the amount paid.
+  # {target} will be replaced with the recipient's name.
+  payment-success: '<green>You paid <gold>{amount}</gold> to <yellow>{target}</yellow>.</green>'
 
+  # Message shown to the recipient when they receive a payment.
+  # {amount} will be replaced with the amount received.
+  # {player} will be replaced with the payer's name.
+  payment-received: '<green>You received <gold>{amount}</gold> from <yellow>{player}</yellow>.</green>'
+
+  # Usage message shown when the player uses the pay command incorrectly.
+  usage: '<yellow>Usage: /pay <player> <amount></yellow>'
+
+  # Section for error messages specific to the pay command.
+  error:
+    # Message shown when the player does not have enough funds to complete the payment.
+    insufficient-funds: '<red>You do not have the required funds.</red>'
+
+    # Message shown when the player tries to pay themselves.
+    self-payment: '<red>You cannot pay yourself.</red>'
+
+# Section for the set balance command configuration.
 set-balance:
-  success-to-player: "Set {target}'s balance to {amount}."
+  # Message shown to the player who sets another player's balance.
+  # {target} will be replaced with the target player's name.
+  # {amount} will be replaced with the new balance amount.
+  success-to-player: <green>Set <yellow>{target}</yellow>'s balance to <gold>{amount}</gold>.</green>
+
+  # Usage message shown when the player uses the set balance command incorrectly.
+  usage: '<yellow>Usage: /setbalance <player> <amount></yellow>'
+
+  # Whether to send a message to the target player when their balance is set.
   send-message-to-target: true
-  success-to-target: 'Your balance has been set to {amount}'
+
+  # Message shown to the target player when their balance is set.
+  # {amount} will be replaced with the new balance amount.
+  success-to-target: '<green>Your balance has been set to <gold>{amount}</gold>.</green>'
