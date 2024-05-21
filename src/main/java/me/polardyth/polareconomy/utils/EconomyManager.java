@@ -25,12 +25,12 @@ public class EconomyManager {
 
     public void setBalance(UUID playerUUID, double amount) {
         balancesConfig.set(playerUUID.toString(), amount);
-        settingsManager.saveConfig();
+        settingsManager.saveBalanceConfig();
     }
 
     public void addBalance(UUID playerUUID, double amount) {
         balancesConfig.set(playerUUID.toString(), getBalance(playerUUID) + amount);
-        settingsManager.saveConfig();
+        settingsManager.saveBalanceConfig();
     }
 
     public SettingsManager getSettingsManager() {
@@ -41,7 +41,7 @@ public class EconomyManager {
         double currentBalance = getBalance(playerUUID);
         if (currentBalance >= amount) {
             setBalance(playerUUID, currentBalance - amount);
-            settingsManager.saveConfig();
+            settingsManager.saveBalanceConfig();
             return true;
         } else {
             return false;

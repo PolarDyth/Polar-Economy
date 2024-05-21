@@ -3,6 +3,7 @@ package me.polardyth.polareconomy;
 import me.polardyth.polareconomy.commands.BalanceCommand;
 import me.polardyth.polareconomy.commands.PayCommand;
 import me.polardyth.polareconomy.commands.SetBalanceCommand;
+import me.polardyth.polareconomy.systems.Interest;
 import me.polardyth.polareconomy.utils.EconomyManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -13,6 +14,8 @@ import java.io.IOException;
 
 public final class PolarEconomy extends JavaPlugin {
 
+    private Interest interest;
+
     @Override
     public void onEnable() {
 
@@ -22,6 +25,8 @@ public final class PolarEconomy extends JavaPlugin {
         getCommand("setbalance").setExecutor(new SetBalanceCommand(economyManager));
         getLogger().info("PolarEconomy enabled!");
 
+        interest = new Interest(economyManager, this);
+
         FileConfiguration config = loadConfig();
 
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
@@ -29,9 +34,21 @@ public final class PolarEconomy extends JavaPlugin {
             MessageUtil.loadMessages(config);
             getLogger().info("Messages loaded successfully.");
         });
+
+        if (MessageUtil.isInterestEnabled()) {
+            try {
+                Interest interest = new Interest(economyManager, this);
+                interest.scheduleInterest();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
     @Override
     public void onDisable() {
+        interest.saveRemainingTime();
+        getLogger().info("Interest time saved.");
         getLogger().info("PolarEconomy Disabled");
     }
 

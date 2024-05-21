@@ -72,3 +72,18 @@ set-balance:
   # Message shown to the target player when their balance is set.
   # {amount} will be replaced with the new balance amount.
   success-to-target: '<green>Your balance has been set to <gold>{amount}</gold>.</green>'
+
+# Section for interest configuration.#
+interest:
+  # Whether to enable interest for all players.
+  enabled: true
+
+  # The interest rate in percentage.
+  rate: 1.0
+
+  # The interval in seconds at which interest is applied.
+  interval: 60
+
+  # Message shown to the player when interest is applied.
+  # {amount} will be replaced with the interest amount.
+  message: '<green>You received <gold>{amount}</gold> as interest.</green>'

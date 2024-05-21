@@ -28,6 +28,12 @@ public class MessageUtil {
     private static boolean sendSuccessMessageToTarget;
     private static String successToTargetMessage;
 
+    // Interest Messages
+    private static double interestRate;
+    private static String interestMessage;
+    private static int interestInterval;
+    private static boolean interestEnabled;
+
     // List of usages
     private static final List<Map<String, String>> usages = new ArrayList<>();
 
@@ -57,6 +63,12 @@ public class MessageUtil {
         usages.add(Map.of("balance", config.getString("balance.usage")));
         usages.add(Map.of("pay", config.getString("pay.usage")));
         usages.add(Map.of("setbalance", config.getString("set-balance.usage")));
+
+        // Interest Messages
+        interestRate = config.getDouble("interest.rate");
+        interestMessage = config.getString("interest.message");
+        interestInterval = config.getInt("interest.interval");
+        interestEnabled = config.getBoolean("interest.enabled");
     }
 
     // Standard Error Messages Getters
@@ -92,4 +104,10 @@ public class MessageUtil {
         }
         return "Usage information not available.";
     }
+
+    // Interest getters
+    public static double getInterestRate() { return interestRate; }
+    public static String getInterestMessage() { return interestMessage; }
+    public static int getInterestInterval() { return interestInterval; }
+    public static boolean isInterestEnabled() { return interestEnabled; }
 }
