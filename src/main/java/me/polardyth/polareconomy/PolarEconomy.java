@@ -22,7 +22,6 @@ public final class PolarEconomy extends JavaPlugin {
         config.options().copyDefaults(true);
         saveConfig();
     }
-
     @Override
     public void onDisable() {
         getLogger().info("PolarEconomy Disabled");

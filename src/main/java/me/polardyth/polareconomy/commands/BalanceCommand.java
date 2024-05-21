@@ -4,15 +4,18 @@ import me.polardyth.polareconomy.utils.EconomyManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class BalanceCommand implements CommandExecutor {
 
     private final EconomyManager economyManager;
+    private final FileConfiguration config;
 
     public BalanceCommand(EconomyManager economyManager) {
         this.economyManager = economyManager;
+        config = economyManager.getSettingsManager().getConfig();
     }
 
     @Override
@@ -24,7 +27,7 @@ public class BalanceCommand implements CommandExecutor {
         }
 
         double balance = economyManager.getBalance(player.getUniqueId());
-        player.sendMessage("Your balance is: " + balance);
+        player.sendMessage(config.getString("balance.success-message").replace("{balance}", Double.toString(balance)));
         return true;
      }
 }

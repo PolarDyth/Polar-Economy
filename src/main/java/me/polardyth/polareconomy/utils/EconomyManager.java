@@ -33,6 +33,10 @@ public class EconomyManager {
         settingsManager.saveConfig();
     }
 
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
+    }
+
     public boolean removeBalance(UUID playerUUID, double amount) {
         double currentBalance = getBalance(playerUUID);
         if (currentBalance >= amount) {

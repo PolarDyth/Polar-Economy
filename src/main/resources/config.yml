@@ -1,20 +1,19 @@
-permission-error: 'You do not have permission to use this command.'
-
 error-messages:
   negative-number: 'Amount cannot be negative'
   not-number: 'Invalid Amount'
   not-player: 'Only players can use this command.'
+  permission-error: 'You do not have permission to use this command.'
 
 balance:
   success-message: 'Your balance is {balance}'
 
 pay:
-  success-to-player: 'You paid {amount} to {player}.'
+  success-to-player: 'You paid {amount} to {target}.'
   success-to-target: 'You received {amount} from {player}.'
   error:
     inefficient-funds: 'You do not have the required funds.'
 
 set-balance:
-  success-to-player: 'Set {player}'s balance to {amount}.'
+  success-to-player: "Set {target}'s balance to {amount}."
   send-message-to-target: true
   success-to-target: 'Your balance has been set to {amount}'

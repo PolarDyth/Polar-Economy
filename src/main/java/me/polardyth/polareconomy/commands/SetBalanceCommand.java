@@ -17,14 +17,14 @@ public class SetBalanceCommand implements CommandExecutor {
 
     public SetBalanceCommand(EconomyManager economyManager) {
         this.economyManager = economyManager;
-        config =
+        config = economyManager.getSettingsManager().getConfig();
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
         if (!commandSender.hasPermission("polareconomy.setbalance")) {
-            commandSender.sendMessage("You do not have permission to use this command.");
+            commandSender.sendMessage(config.getString("error-messages.permission.error"));
             return true;
         }
 
@@ -35,23 +35,24 @@ public class SetBalanceCommand implements CommandExecutor {
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(strings[0]);
         double amount;
+        boolean successMessage = config.getBoolean("setbalance.send-message-to-target");
 
         try {
             amount = Double.parseDouble(strings[1]);
         } catch (NumberFormatException e) {
-            commandSender.sendMessage("Invalid amount.");
+            commandSender.sendMessage(config.getString("error-messages.not-number"));
             return true;
         }
 
         if (amount < 0) {
-            commandSender.sendMessage("Amount cannot be negative");
+            commandSender.sendMessage(config.getString("error-messages.negative-number"));
             return true;
         }
 
         economyManager.setBalance(target.getUniqueId(), amount);
-        commandSender.sendMessage("Set " + target.getName() + "'s balance to " + amount + ".");
-        if (target.isOnline()) {
-            ((Player) target).sendMessage("Your balance has been set to " + amount + ".");
+        commandSender.sendMessage(config.getString("set-balance.success-to-player").replace("{target}", target.getName()).replace("{amount}", Double.toString(amount)));
+        if (target.isOnline() && successMessage) {
+            ((Player) target).sendMessage(config.getString("set-balance.success-to-target").replace("{amount}", Double.toString(amount)));
         }
 
         return true;
