@@ -1,18 +1,20 @@
 package me.polardyth.polareconomy;
 
 import me.polardyth.polareconomy.commands.BalanceCommand;
+import me.polardyth.polareconomy.commands.BankCommand;
 import me.polardyth.polareconomy.commands.PayCommand;
 import me.polardyth.polareconomy.commands.SetBalanceCommand;
+import me.polardyth.polareconomy.listeners.MenuListener;
 import me.polardyth.polareconomy.systems.Interest;
 import me.polardyth.polareconomy.utils.EconomyManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 
-public final class PolarEconomy extends JavaPlugin {
+public final class PolarEconomy extends JavaPlugin implements Listener {
 
     private Interest interest;
 
@@ -23,6 +25,10 @@ public final class PolarEconomy extends JavaPlugin {
         getCommand("balance").setExecutor(new BalanceCommand(economyManager));
         getCommand("pay").setExecutor(new PayCommand(economyManager));
         getCommand("setbalance").setExecutor(new SetBalanceCommand(economyManager));
+        getCommand("bank").setExecutor(new BankCommand(economyManager));
+
+        getServer().getPluginManager().registerEvents(new MenuListener(), this);
+
         getLogger().info("PolarEconomy enabled!");
 
         interest = new Interest(economyManager, this);
