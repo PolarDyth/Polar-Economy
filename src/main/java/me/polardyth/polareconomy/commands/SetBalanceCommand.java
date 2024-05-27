@@ -2,6 +2,7 @@ package me.polardyth.polareconomy.commands;
 
 import me.polardyth.polareconomy.utils.EconomyManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
+import me.polardyth.polareconomy.utils.config.SettingsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -17,9 +18,12 @@ import java.util.logging.Logger;
 public class SetBalanceCommand implements CommandExecutor {
 
     private final EconomyManager economyManager;
+    private final FileConfiguration config;
 
     public SetBalanceCommand(EconomyManager economyManager) {
         this.economyManager = economyManager;
+        SettingsManager configFiles = economyManager.getConfigs();
+        config = configFiles.getConfig("config");
     }
 
     @Override
@@ -30,7 +34,7 @@ public class SetBalanceCommand implements CommandExecutor {
         }
 
         if (strings.length != 2) {
-            commandSender.sendRichMessage(MessageUtil.getUsages("setbalance"));
+            commandSender.sendRichMessage(config.getString("setbalance.usage"));
             return true;
         }
 
@@ -50,18 +54,37 @@ public class SetBalanceCommand implements CommandExecutor {
             return true;
         }
 
-        if (amount < 0) {
+        if (amount <= 0) {
             commandSender.sendRichMessage(MessageUtil.getNegativeNumberMessage());
             return true;
         }
 
-        economyManager.setBalance(target.getUniqueId(), amount);
-        commandSender.sendRichMessage(MessageUtil.getSuccessToPlayerMessage().replace("{target}", target.getName()).replace("{amount}", Double.toString(amount)));
 
-        if (target.isOnline() && MessageUtil.isSendSuccessMessageToTarget()) {
-            ((Player) target).sendRichMessage(MessageUtil.getSuccessToTargetMessage().replace("{amount}", Double.toString(amount)).replace("{target}", target.getName()));
+
+        if (hasTooManyDecimals(amount)) {
+            commandSender.sendRichMessage(MessageUtil.getTooManyDecimalsMessage());
+            return true;
+        }
+
+        economyManager.setBalance(target.getUniqueId(), amount);
+        commandSender.sendRichMessage(config.getString("set-balance.success-to-player").replace("{amount}", Double.toString(amount)).replace("{target}", target.getName()));
+
+        if (target.isOnline() && config.getBoolean("set-balance.send-message-to-target")) {
+            ((Player) target).sendRichMessage(config.getString("set-balance.success-to-target").replace("{amount}", Double.toString(amount)));
         }
 
         return true;
+    }
+
+    private boolean hasTooManyDecimals(double amount) {
+        String text = Double.toString(amount);
+        int integerPlace = text.indexOf('.');
+        int decimalPlace = text.length() - integerPlace - 1;
+
+        if (decimalPlace > 2) {
+            return true;
+        }
+
+        return false;
     }
 }

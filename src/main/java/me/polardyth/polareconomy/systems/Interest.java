@@ -1,59 +1,65 @@
 package me.polardyth.polareconomy.systems;
 
 import me.polardyth.polareconomy.utils.EconomyManager;
-import me.polardyth.polareconomy.utils.MessageUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.text.DecimalFormat;
 import java.util.logging.Logger;
 
 public class Interest {
 
     private final EconomyManager economyManager;
     private final Plugin plugin;
+    private final FileConfiguration dataFile;
+    private final FileConfiguration configFile;
+    private final int intervalInterest;
 
     public Interest(EconomyManager economyManager, Plugin plugin) {
         this.economyManager = economyManager;
         this.plugin = plugin;
+        dataFile = economyManager.getData().getConfig("interest");
+        configFile = economyManager.getConfigs().getConfig("interest");
+
+        intervalInterest = configFile.getInt("interest.interval");
     }
 
     public void scheduleInterest() {
-        int interval = MessageUtil.getInterestInterval();
-        if (economyManager.getSettingsManager().getInterestConfig().getLong("time-until-interest") > 0) {
-            long timeUntilInterest = economyManager.getSettingsManager().getInterestConfig().getLong("time-until-interest");
-            plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this::applyInterest, timeUntilInterest / 1000L * 20L, interval * 20L);
+        if (dataFile.getLong("time-until-interest") > 0) {
+            long timeUntilInterest = dataFile.getLong("time-until-interest");
+            plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this::applyInterest, timeUntilInterest / 1000L * 20L, intervalInterest * 20L);
             return;
         } else {
-            economyManager.getSettingsManager().getInterestConfig().set("time-until-interest", interval * 1000L);
-            economyManager.getSettingsManager().saveInterestConfig();
+            dataFile.set("time-until-interest", intervalInterest * 1000L);
         }
-        plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this::applyInterest, interval * 20L, interval * 20L);
+        plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this::applyInterest, intervalInterest * 20L, intervalInterest * 20L);
     }
 
     public void saveRemainingTime() {
-        long lastInterestTime = economyManager.getSettingsManager().getInterestConfig().getLong("last-interest-time");
+        long lastInterestTime = dataFile.getLong("last-interest-time");
         long getCurrentTime = System.currentTimeMillis();
-        int interval = MessageUtil.getInterestInterval();
-        long intervalMillis = interval * 1000L;
+        long intervalMillis = intervalInterest * 1000L;
         long timeUntilNextInterest = (lastInterestTime + intervalMillis) - getCurrentTime;
-        economyManager.getSettingsManager().getInterestConfig().set("time-until-interest", timeUntilNextInterest);
-        economyManager.getSettingsManager().saveInterestConfig();
+        dataFile.set("time-until-interest", timeUntilNextInterest);
     }
 
     private void saveLastInterestTime() {
-        economyManager.getSettingsManager().getInterestConfig().set("last-interest-time", System.currentTimeMillis());
-        economyManager.getSettingsManager().saveInterestConfig();
+        dataFile.set("last-interest-time", System.currentTimeMillis());
     }
 
     private void applyInterest() {
-        double interestRate = MessageUtil.getInterestRate();
+        double interestRate = configFile.getDouble("interest.rate");
+        final DecimalFormat df = new DecimalFormat("0.00");
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             double balance = economyManager.getBalance(player.getUniqueId());
             double interest = balance * (interestRate / 100);
-            economyManager.addBalance(player.getUniqueId(), interest);
-            player.sendRichMessage(MessageUtil.getInterestMessage().replace("{amount}", Double.toString(interest)));
+            double interestRounded = Double.parseDouble(df.format(interest));
+            Logger.getLogger("Minecraft").info("debug: " + interestRounded);
+            economyManager.addBalance(player.getUniqueId(), interestRounded);
+            player.sendRichMessage(configFile.getString("interest.message").replace("{amount}", Double.toString(interestRounded)));
         }
 
         saveLastInterestTime();

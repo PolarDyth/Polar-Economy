@@ -1,6 +1,6 @@
 package me.polardyth.polareconomy.commands;
 
-import me.polardyth.polareconomy.menus.BankerMenu;
+import me.polardyth.polareconomy.menus.bankermenu.BankerFirstPage;
 import me.polardyth.polareconomy.utils.EconomyManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
 import org.bukkit.command.Command;
@@ -24,7 +24,7 @@ public class BankCommand implements CommandExecutor {
             return true;
         }
 
-        BankerMenu menu = new BankerMenu(economyManager, player);
+        BankerFirstPage menu = new BankerFirstPage(economyManager, player);
         menu.open(player);
 
         return true;
