@@ -3,7 +3,6 @@ package me.polardyth.polareconomy.utils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 public class MessageUtil {
 

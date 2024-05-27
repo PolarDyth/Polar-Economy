@@ -1,6 +1,5 @@
 package me.polardyth.polareconomy;
 
-import me.polardyth.polareconomy.utils.EconomyManager;
 import org.jetbrains.annotations.NotNull;
 
 public class PolarSettings {
