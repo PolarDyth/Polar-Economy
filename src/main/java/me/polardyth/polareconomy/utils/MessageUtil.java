@@ -13,6 +13,7 @@ public class MessageUtil {
     private static String negativeNumberMessage;
     private static String playerNotFoundMessage;
     private static String notPlayerMessage;
+    private static String tooManyDecimalsMessage;
 
     // Balance command messages
     private static String balanceMessage;
@@ -44,6 +45,7 @@ public class MessageUtil {
         negativeNumberMessage = config.getString("error-messages.negative-number");
         playerNotFoundMessage = config.getString("error-messages.player-not-found");
         notPlayerMessage = config.getString("error-messages.not-player");
+        tooManyDecimalsMessage = config.getString("error-messages.too-many-decimals");
 
         // Balance command messages
         balanceMessage = config.getString("balance.balance-message");
@@ -77,25 +79,35 @@ public class MessageUtil {
     public static String getNegativeNumberMessage() { return negativeNumberMessage; }
     public static String getPlayerNotFoundMessage() { return playerNotFoundMessage; }
     public static String getNotPlayerMessage() { return notPlayerMessage; }
+    public static String getTooManyDecimalsMessage() { return tooManyDecimalsMessage; }
 
     // Balance command getters
+    @Deprecated
     public static String getBalanceMessage() { return balanceMessage; }
 
     // Pay command getters
+    @Deprecated
     public static String getSelfPaymentErrorMessage() { return selfPaymentErrorMessage; }
+    @Deprecated
     public static String getInsufficientFundsMessage() { return insufficientFundsMessage; }
+    @Deprecated
     public static String getPaymentSuccessMessage(String targetName, double amount) {
         return paymentSuccessMessage.replace("{target}", targetName).replace("{amount}", Double.toString(amount));
     }
+    @Deprecated
     public static String getPaymentReceivedMessage(String playerName, double amount) {
         return paymentReceivedMessage.replace("{player}", playerName).replace("{amount}", Double.toString(amount));
     }
 
     // SetBalance command getters
+    @Deprecated
     public static String getSuccessToPlayerMessage() { return successToPlayerMessage; }
+    @Deprecated
     public static boolean isSendSuccessMessageToTarget() { return sendSuccessMessageToTarget; }
+    @Deprecated
     public static String getSuccessToTargetMessage() { return successToTargetMessage; }
 
+    @Deprecated
     public static String getUsages(String command) {
         for (Map<String, String> usageMap : usages) {
             if (usageMap.containsKey(command)) {
@@ -106,8 +118,12 @@ public class MessageUtil {
     }
 
     // Interest getters
+    @Deprecated
     public static double getInterestRate() { return interestRate; }
+    @Deprecated
     public static String getInterestMessage() { return interestMessage; }
+    @Deprecated
     public static int getInterestInterval() { return interestInterval; }
+    @Deprecated
     public static boolean isInterestEnabled() { return interestEnabled; }
 }

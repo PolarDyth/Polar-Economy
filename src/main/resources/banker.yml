@@ -1,0 +1,37 @@
+menu:
+  title: '<green>Banker'
+  deposit-button:
+    title: '<green>Deposit Coins</green>'
+    lore:
+      - '<gray>Current Balance: <gold>{balance}'
+      - ''
+      - '<gray>Store coins in the bank to keep them'
+      - '<gray>safe and earn interest on them!'
+      - ''
+      - '<gray>You will earn <aqua>2%<gray> interest every season'
+      - '<gray>for your first <gold>10 million<gray> banked coins.'
+      - ''
+      - '<gray>Until next interest: <aqua>{interest_time}'
+      - ''
+      - '<yellow>Click to make a deposit'
+  withdraw-button:
+    title: '<green>Withdraw Coins'
+    lore:
+      - '<gray>Current Balance: <gold>{balance}'
+      - ''
+      - '<gray>Take coins out of the bank in'
+      - '<gray>order to spend them.'
+      - ''
+      - '<yellow>Click to withdraw coins!'
+  recent-transactions:
+    title: '<green>Recent Transactions'
+  information-button:
+    title: '<green>Bank Information'
+    lore:
+      - '<gray>Keep your coins safe in the bank!'
+      - '<gray>You lose half the coins in your purse'
+      - '<gray>when dying in combat'
+      - ''
+      - '<gray>Balance limit: <gold>50 million'
+      - ''
+      - '<gray>The banker rewards you every 31 hours with interest for coins ni your bank balance'
