@@ -1,6 +1,5 @@
 package me.polardyth.polareconomy.utils.config;
 
-import me.polardyth.polareconomy.PolarEconomy;
 import me.polardyth.polareconomy.PolarSettings;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

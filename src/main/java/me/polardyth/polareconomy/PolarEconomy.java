@@ -5,6 +5,7 @@ import me.polardyth.polareconomy.commands.BankCommand;
 import me.polardyth.polareconomy.commands.PayCommand;
 import me.polardyth.polareconomy.commands.SetBalanceCommand;
 import me.polardyth.polareconomy.listeners.MenuListener;
+import me.polardyth.polareconomy.listeners.SignGUIListener;
 import me.polardyth.polareconomy.systems.Interest;
 import me.polardyth.polareconomy.utils.EconomyManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
@@ -36,6 +37,7 @@ public final class PolarEconomy extends JavaPlugin implements Listener {
         getCommand("bank").setExecutor(new BankCommand(economyManager));
 
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
+        getServer().getPluginManager().registerEvents(new SignGUIListener(economyManager), this);
 
         getLogger().info("PolarEconomy enabled!");
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
