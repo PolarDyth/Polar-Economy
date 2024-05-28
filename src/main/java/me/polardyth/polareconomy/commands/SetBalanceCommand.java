@@ -34,7 +34,7 @@ public class SetBalanceCommand implements CommandExecutor {
         }
 
         if (strings.length != 2) {
-            commandSender.sendRichMessage(config.getString("setbalance.usage"));
+            commandSender.sendRichMessage(config.getString("set-balance.usage"));
             return true;
         }
 
@@ -66,7 +66,7 @@ public class SetBalanceCommand implements CommandExecutor {
             return true;
         }
 
-        economyManager.setBalance(target.getUniqueId(), amount);
+        economyManager.setPurseBalance(target.getUniqueId(), amount);
         commandSender.sendRichMessage(config.getString("set-balance.success-to-player").replace("{amount}", Double.toString(amount)).replace("{target}", target.getName()));
 
         if (target.isOnline() && config.getBoolean("set-balance.send-message-to-target")) {
@@ -81,10 +81,6 @@ public class SetBalanceCommand implements CommandExecutor {
         int integerPlace = text.indexOf('.');
         int decimalPlace = text.length() - integerPlace - 1;
 
-        if (decimalPlace > 2) {
-            return true;
-        }
-
-        return false;
+        return decimalPlace > 2;
     }
 }

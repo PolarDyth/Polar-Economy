@@ -3,6 +3,8 @@ version: '${project.version}'
 main: me.polardyth.polareconomy.PolarEconomy
 api-version: '1.20'
 author: PolarDyth
+softdepend:
+  - ProtocolLib
 commands:
   balance:
     description: Check your balance.

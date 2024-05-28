@@ -1,5 +1,11 @@
 package me.polardyth.polareconomy;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
 import me.polardyth.polareconomy.commands.BalanceCommand;
 import me.polardyth.polareconomy.commands.BankCommand;
 import me.polardyth.polareconomy.commands.PayCommand;
@@ -30,14 +36,13 @@ public final class PolarEconomy extends JavaPlugin implements Listener {
         FileConfiguration config = configFiles.getConfig("config");
         FileConfiguration interestConfig = configFiles.getConfig("interest");
 
-        EconomyManager economyManager = new EconomyManager(this, configFiles, dataFiles);
+        EconomyManager economyManager = new EconomyManager(configFiles, dataFiles);
         getCommand("balance").setExecutor(new BalanceCommand(economyManager));
         getCommand("pay").setExecutor(new PayCommand(economyManager));
         getCommand("setbalance").setExecutor(new SetBalanceCommand(economyManager));
         getCommand("bank").setExecutor(new BankCommand(economyManager));
 
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
-        getServer().getPluginManager().registerEvents(new SignGUIListener(economyManager), this);
 
         getLogger().info("PolarEconomy enabled!");
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {

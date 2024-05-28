@@ -67,8 +67,8 @@ public class PayCommand implements CommandExecutor {
             return true;
         }
 
-        if (economyManager.removeBalance(player.getUniqueId(), amount)) {
-            economyManager.addBalance(target.getUniqueId(), amount);
+        if (economyManager.removePurseBalance(player.getUniqueId(), amount)) {
+            economyManager.addPurseBalance(target.getUniqueId(), amount);
             player.sendRichMessage(config.getString("pay.payment-success").replace("{target}", targetName).replace("{amount}", Double.toString(amount)));
             if (target.isOnline()) {
                 ((Player) target).sendMessage(config.getString("pay.payment-received").replace("{player}", player.getName()).replace("{amount}", Double.toString(amount)));

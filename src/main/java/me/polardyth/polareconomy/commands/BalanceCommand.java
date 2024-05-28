@@ -30,7 +30,7 @@ public class BalanceCommand implements CommandExecutor {
             return true;
         }
 
-        double balance = economyManager.getBalance(player.getUniqueId());
+        double balance = economyManager.getPurseBalance(player.getUniqueId());
         player.sendRichMessage(config.getString("balance.balance-message").replace("{balance}", Double.toString(balance)));
         return true;
      }

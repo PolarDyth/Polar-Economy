@@ -4,7 +4,7 @@ menu:
     deposit-button:
       title: '<green>Deposit Coins</green>'
       lore:
-        - '<gray>Current Balance: <gold>{balance}'
+        - '<gray>Current Balance: <gold>{bank_balance}'
         - ''
         - '<gray>Store coins in the bank to keep them'
         - '<gray>safe and earn interest on them!'
@@ -41,6 +41,67 @@ menu:
     specific-amount-button:
       title: '<green>Specific amount</green>'
       lore:
-        - '<gray>Current balance: <gold>{balance}'
+        - '<gray>Current balance: <gold>{bank_balance}'
         - ''
         - '<yellow>Click to deposit coins'
+    deposit-all:
+        title: '<green>Your whole purse</green>'
+        lore:
+            - '<dark_gray>Bank deposit'
+            - ''
+            - '<gray>Current balance: <gold>{bank_balance}'
+            - '<gray>Amount to deposit: <gold>{amount}'
+            - ''
+            - '<yellow>Click to deposit coins'
+    deposit-half:
+      title: '<green>Half your purse</green>'
+      lore:
+          - '<dark_gray>Bank deposit'
+          - ''
+          - '<gray>Current balance: <gold>{bank_balance}'
+          - '<gray>Amount to deposit: <gold>{amount}'
+          - ''
+          - '<yellow>Click to deposit coins'
+    back-button:
+      title: '<green>Go back'
+      lore:
+        - '<gray>To Personal Bank Account'
+  withdraw-page:
+    title: '<green>Withdraw Coins'
+    specific-amount-button:
+      title: '<green>Specific amount</green>'
+      lore:
+        - '<gray>Current balance: <gold>{bank_balance}'
+        - ''
+        - '<yellow>Click to withdraw coins'
+    withdraw-all:
+      title: '<green>Everything in the account</green>'
+      lore:
+          - '<dark_gray>Bank withdrawal'
+          - ''
+          - '<gray>Current balance: <gold>{bank_balance}'
+          - '<gray>Amount to withdraw: <gold>{amount}'
+          - ''
+          - '<yellow>Click to withdraw coins'
+    withdraw-half:
+      title: '<green>Half bank balance</green>'
+      lore:
+          - '<dark_gray>Bank withdraw'
+          - ''
+          - '<gray>Current balance: <gold>{bank_balance}'
+          - '<gray>Amount to withdraw: <gold>{amount}'
+          - ''
+          - '<yellow>Click to withdraw coins'
+    withdraw-20:
+      title: '<green>Withdraw 20%</green>'
+      lore:
+          - '<dark_gray>Bank withdraw'
+          - ''
+          - '<gray>Current balance: <gold>{bank_balance}'
+          - '<gray>Amount to withdraw: <gold>{amount}'
+          - ''
+          - '<yellow>Click to withdraw coins'
+    back-button:
+      title: '<green>Go back'
+      lore:
+        - '<gray>To Personal Bank Account'

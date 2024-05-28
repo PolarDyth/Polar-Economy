@@ -54,11 +54,11 @@ public class Interest {
         final DecimalFormat df = new DecimalFormat("0.00");
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            double balance = economyManager.getBalance(player.getUniqueId());
+            double balance = economyManager.getPurseBalance(player.getUniqueId());
             double interest = balance * (interestRate / 100);
             double interestRounded = Double.parseDouble(df.format(interest));
             Logger.getLogger("Minecraft").info("debug: " + interestRounded);
-            economyManager.addBalance(player.getUniqueId(), interestRounded);
+            economyManager.addPurseBalance(player.getUniqueId(), interestRounded);
             player.sendRichMessage(configFile.getString("interest.message").replace("{amount}", Double.toString(interestRounded)));
         }
 
