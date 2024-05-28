@@ -17,12 +17,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BankerDepositPage extends MenuMaker {
+public class BankerWithdrawPage extends MenuMaker {
+
 
     private final FileConfiguration bankerConfig;
     private final EconomyManager economyManager;
 
-    public BankerDepositPage(EconomyManager economyManager, Player player) {
+    public BankerWithdrawPage(EconomyManager economyManager, Player player) {
         super(36, "banker");
 
         this.economyManager = economyManager;
@@ -32,9 +33,10 @@ public class BankerDepositPage extends MenuMaker {
             setItem(i, blackPane());
         }
 
-        setItem(11, depositAll(player), depositAllAction());
-        setItem(13, depositHalf(player), depositHalfAction());
-        setItem(15, specificAmountButton(player), specificAmountAction());
+        setItem(10, withdrawAll(player), withdrawAllAction());
+        setItem(12, withdrawHalf(player), withdrawHalfAction());
+        setItem(14, withdrawTwentyPercent(player), withdrawTwentyPercentAction());
+        setItem(16, specificAmountButton(player), specificAmountAction());
         setItem(31, backButton(), goBackAction());
     }
 
@@ -49,19 +51,19 @@ public class BankerDepositPage extends MenuMaker {
         return item;
     }
 
-    private ItemStack depositAll(Player player) {
-        ItemStack item = new ItemStack(Material.CHEST);
+    private ItemStack withdrawAll(Player player) {
+        ItemStack item = new ItemStack(Material.DISPENSER);
         item.setAmount(64);
         ItemMeta meta = item.getItemMeta();
 
-        meta.displayName(MiniColor.TEXT.deserialize(bankerConfig.getString("menu.deposit-page.deposit-all.title")));
+        meta.displayName(MiniColor.TEXT.deserialize(bankerConfig.getString("menu.withdraw-page.withdraw-all.title")));
 
         List<Component> loreList = new ArrayList<>();
 
-        for (String lore : bankerConfig.getStringList("menu.deposit-page.deposit-all.lore")) {
+        for (String lore : bankerConfig.getStringList("menu.deposit-page.deposit-half.lore")) {
             loreList.add(MiniColor.TEXT.deserialize(lore
                     .replace("{bank_balance}", Double.toString(economyManager.getBankBalance(player.getUniqueId())))
-                    .replace("{amount}", Double.toString(economyManager.getPurseBalance(player.getUniqueId())))));
+                    .replace("{amount}", Double.toString(economyManager.getBankBalance(player.getUniqueId())))));
         }
 
         meta.lore(loreList);
@@ -70,19 +72,42 @@ public class BankerDepositPage extends MenuMaker {
         return item;
     }
 
-    private ItemStack depositHalf(Player player) {
-        ItemStack item = new ItemStack(Material.CHEST);
+    private ItemStack withdrawHalf(Player player) {
+        ItemStack item = new ItemStack(Material.DISPENSER);
         item.setAmount(32);
         ItemMeta meta = item.getItemMeta();
-
-        meta.displayName(MiniColor.TEXT.deserialize(bankerConfig.getString("menu.deposit-page.deposit-half.title")));
 
         List<Component> loreList = new ArrayList<>();
 
         final DecimalFormat df = new DecimalFormat("0.00");
-        double amount = Double.parseDouble(df.format(economyManager.getPurseBalance(player.getUniqueId()) / 2));
+        double amount = Double.parseDouble(df.format(economyManager.getBankBalance(player.getUniqueId()) / 2));
 
         for (String lore : bankerConfig.getStringList("menu.deposit-page.deposit-half.lore")) {
+            loreList.add(MiniColor.TEXT.deserialize(lore
+                    .replace("{bank_balance}", Double.toString(economyManager.getBankBalance(player.getUniqueId())))
+                    .replace("{amount}", Double.toString(amount))));
+        }
+
+        meta.displayName(MiniColor.TEXT.deserialize(bankerConfig.getString("menu.withdraw-page.withdraw-half.title")));
+
+        meta.lore(loreList);
+        item.setItemMeta(meta);
+
+        return item;
+    }
+
+    private ItemStack withdrawTwentyPercent(Player player) {
+        ItemStack item = new ItemStack(Material.DISPENSER);
+        ItemMeta meta = item.getItemMeta();
+
+        meta.displayName(MiniColor.TEXT.deserialize(bankerConfig.getString("menu.withdraw-page.withdraw-20.title")));
+
+        List<Component> loreList = new ArrayList<>();
+
+        final DecimalFormat df = new DecimalFormat("0.00");
+        double amount = Double.parseDouble(df.format(economyManager.getBankBalance(player.getUniqueId()) * 0.2));
+
+        for (String lore : bankerConfig.getStringList("menu.withdraw-page.withdraw-20.lore")) {
             loreList.add(MiniColor.TEXT.deserialize(lore
                     .replace("{bank_balance}", Double.toString(economyManager.getBankBalance(player.getUniqueId())))
                     .replace("{amount}", Double.toString(amount))));
@@ -130,38 +155,49 @@ public class BankerDepositPage extends MenuMaker {
         return item;
     }
 
+    private MenuAction withdrawAllAction() {
+        return (player) -> {
+            economyManager.addPurseBalance(player.getUniqueId(), economyManager.getBankBalance(player.getUniqueId()));
+            economyManager.setBankBalance(player.getUniqueId(), 0);
+
+            BankerMainPage mainPage = new BankerMainPage(economyManager, player);
+            mainPage.open(player);
+        };
+    }
+
+    private MenuAction withdrawHalfAction() {
+        return player -> {
+            final DecimalFormat df = new DecimalFormat("0.00");
+            double amount = Double.parseDouble(df.format(economyManager.getData().getConfig("balances").getDouble(player.getUniqueId() + ".bank") / 2));
+            economyManager.addPurseBalance(player.getUniqueId(), amount);
+            economyManager.setBankBalance(player.getUniqueId(), economyManager.getData().getConfig("balances").getDouble(player.getUniqueId() + ".bank") - amount);
+
+            BankerMainPage mainPage = new BankerMainPage(economyManager, player);
+            mainPage.open(player);
+        };
+    }
+
+    private MenuAction withdrawTwentyPercentAction() {
+        return player -> {
+            final DecimalFormat df = new DecimalFormat("0.00");
+            double amount = Double.parseDouble(df.format(economyManager.getData().getConfig("balances").getDouble(player.getUniqueId() + ".bank") * 0.2));
+            economyManager.addPurseBalance(player.getUniqueId(), amount);
+            economyManager.setBankBalance(player.getUniqueId(), economyManager.getData().getConfig("balances").getDouble(player.getUniqueId() + ".bank") - amount);
+
+            BankerMainPage mainPage = new BankerMainPage(economyManager, player);
+            mainPage.open(player);
+        };
+    }
+
     private MenuAction specificAmountAction() {
         return player -> {
             SignGUI signGUI = new SignGUI(player);
-            PolarSettings.getPlugin().getServer().getPluginManager().registerEvents(new SignGUIListener(economyManager, signGUI.getLocation(), signGUI.getBlockSave(), true), PolarSettings.getPlugin());
+            PolarSettings.getPlugin().getServer().getPluginManager().registerEvents(new SignGUIListener(economyManager, signGUI.getLocation(), signGUI.getBlockSave(), false), PolarSettings.getPlugin());
         };
     }
 
     private MenuAction goBackAction() {
         return player -> {
-            BankerMainPage mainPage = new BankerMainPage(economyManager, player);
-            mainPage.open(player);
-        };
-    }
-
-    private MenuAction depositAllAction() {
-        return player -> {
-            double amount = economyManager.getData().getConfig("balances").getDouble(player.getUniqueId() + ".purse");
-            economyManager.addBankBalance(player.getUniqueId(), amount);
-            economyManager.setPurseBalance(player.getUniqueId(), 0);
-
-            BankerMainPage mainPage = new BankerMainPage(economyManager, player);
-            mainPage.open(player);
-        };
-    }
-
-    private MenuAction depositHalfAction() {
-        return player -> {
-            final DecimalFormat df = new DecimalFormat("0.00");
-            double amount = Double.parseDouble(df.format(economyManager.getData().getConfig("balances").getDouble(player.getUniqueId() + ".purse") / 2));
-            economyManager.addBankBalance(player.getUniqueId(), amount);
-            economyManager.setPurseBalance(player.getUniqueId(), economyManager.getData().getConfig("balances").getDouble(player.getUniqueId() + ".purse") - amount);
-
             BankerMainPage mainPage = new BankerMainPage(economyManager, player);
             mainPage.open(player);
         };
