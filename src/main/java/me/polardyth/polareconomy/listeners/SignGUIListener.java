@@ -2,8 +2,8 @@ package me.polardyth.polareconomy.listeners;
 
 import me.polardyth.polareconomy.menus.bankermenu.BankerMainPage;
 import me.polardyth.polareconomy.systems.MiniColor;
-import me.polardyth.polareconomy.utils.BankBalanceEditor;
-import me.polardyth.polareconomy.utils.EconomyManager;
+import me.polardyth.polareconomy.utils.economy.BankManager;
+import me.polardyth.polareconomy.utils.economy.EconomyManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,7 +32,7 @@ public class SignGUIListener implements Listener {
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
 
-        BankBalanceEditor bankBalanceEditor = new BankBalanceEditor(economyManager, event.getPlayer());
+        BankManager bankBalanceEditor = new BankManager(economyManager, event.getPlayer());
 
         // Handle sign change event
         Logger.getLogger("Minecraft").info("Debug: Block is currently " + event.getBlock().getLocation() + " and the location is " + location);

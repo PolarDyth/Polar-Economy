@@ -1,19 +1,12 @@
 package me.polardyth.polareconomy;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
 import me.polardyth.polareconomy.commands.BalanceCommand;
 import me.polardyth.polareconomy.commands.BankCommand;
 import me.polardyth.polareconomy.commands.PayCommand;
 import me.polardyth.polareconomy.commands.SetBalanceCommand;
 import me.polardyth.polareconomy.listeners.MenuListener;
-import me.polardyth.polareconomy.listeners.SignGUIListener;
 import me.polardyth.polareconomy.systems.Interest;
-import me.polardyth.polareconomy.utils.EconomyManager;
+import me.polardyth.polareconomy.utils.economy.EconomyManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
 import me.polardyth.polareconomy.utils.config.SettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;

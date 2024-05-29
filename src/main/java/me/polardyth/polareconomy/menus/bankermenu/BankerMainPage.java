@@ -2,7 +2,7 @@ package me.polardyth.polareconomy.menus.bankermenu;
 
 import me.polardyth.polareconomy.systems.MenuMaker;
 import me.polardyth.polareconomy.systems.MiniColor;
-import me.polardyth.polareconomy.utils.EconomyManager;
+import me.polardyth.polareconomy.utils.economy.EconomyManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

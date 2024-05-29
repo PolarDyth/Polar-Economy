@@ -1,6 +1,6 @@
 package me.polardyth.polareconomy.commands;
 
-import me.polardyth.polareconomy.utils.EconomyManager;
+import me.polardyth.polareconomy.utils.economy.EconomyManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
 import me.polardyth.polareconomy.utils.config.SettingsManager;
 import org.bukkit.command.Command;
