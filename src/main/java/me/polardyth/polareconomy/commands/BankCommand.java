@@ -1,8 +1,7 @@
 package me.polardyth.polareconomy.commands;
 
-import me.polardyth.polareconomy.listeners.SignGUIListener;
 import me.polardyth.polareconomy.menus.bankermenu.BankerMainPage;
-import me.polardyth.polareconomy.utils.EconomyManager;
+import me.polardyth.polareconomy.utils.economy.EconomyManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

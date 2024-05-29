@@ -4,14 +4,13 @@ import me.polardyth.polareconomy.PolarSettings;
 import me.polardyth.polareconomy.listeners.SignGUIListener;
 import me.polardyth.polareconomy.systems.MenuMaker;
 import me.polardyth.polareconomy.systems.MiniColor;
-import me.polardyth.polareconomy.utils.EconomyManager;
+import me.polardyth.polareconomy.utils.economy.EconomyManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
