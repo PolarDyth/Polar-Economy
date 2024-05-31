@@ -26,6 +26,6 @@ public class SettingsManager implements ISettingsManager {
     }
 
     public @NotNull FileConfiguration getConfig(String fileName) {
-        return configs.get(fileName).options();
+        return configs.get(fileName).getConfig();
     }
 }
