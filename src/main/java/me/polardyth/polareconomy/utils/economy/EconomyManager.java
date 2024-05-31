@@ -6,29 +6,20 @@ import java.util.UUID;
 
 public class EconomyManager {
 
-    private final Map<String, BalanceManager> balanceManagers = new HashMap<>();
+    private final Map<String, IBalanceManager> balanceManagers = new HashMap<>();
 
-    public EconomyManager(BalanceManager... balanceManager) {
+    public EconomyManager(IBalanceManager... balanceManager) {
 
-        for (BalanceManager manager : balanceManager) {
+        for (IBalanceManager manager : balanceManager) {
             this.balanceManagers.put(manager.getType(), manager);
         }
     }
 
-
-    public double getBalance(UUID playerUUID, String type) {
-        return balanceManagers.get(type).getBalance(playerUUID);
+    public IBalanceManager getBalanceManager(String type) {
+        return this.balanceManagers.get(type);
     }
 
-    public void setBalance(UUID playerUUID, String type, int amount) {
-        balanceManagers.get(type).setBalance(playerUUID, amount);
-    }
-
-    public void addBalance(UUID playerUUID, String type, int amount) {
-        balanceManagers.get(type).addBalance(playerUUID, amount);
-    }
-
-    public boolean removeBalance(UUID playerUUID, String type, int amount) {
-        return balanceManagers.get(type).removeBalance(playerUUID, amount);
+    public IStoredMoney getStoredMoneyManager(String type) {
+        return (IStoredMoney) this.balanceManagers.get(type);
     }
 }

@@ -6,9 +6,11 @@ import me.polardyth.polareconomy.commands.PayCommand;
 import me.polardyth.polareconomy.commands.SetBalanceCommand;
 import me.polardyth.polareconomy.listeners.MenuListener;
 import me.polardyth.polareconomy.systems.Interest;
+import me.polardyth.polareconomy.utils.economy.Bank;
 import me.polardyth.polareconomy.utils.economy.EconomyManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
 import me.polardyth.polareconomy.utils.config.SettingsManager;
+import me.polardyth.polareconomy.utils.economy.Purse;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,7 +31,8 @@ public final class PolarEconomy extends JavaPlugin implements Listener {
         FileConfiguration config = configFiles.getConfig("config");
         FileConfiguration interestConfig = configFiles.getConfig("interest");
 
-        EconomyManager economyManager = new EconomyManager(configFiles, dataFiles);
+        EconomyManager economyManager = new EconomyManager(new Purse(dataFiles.getConfig("balances"), "purse"),
+                new Bank(dataFiles.getConfig("balances"), "bank"));
         getCommand("balance").setExecutor(new BalanceCommand(economyManager));
         getCommand("pay").setExecutor(new PayCommand(economyManager));
         getCommand("setbalance").setExecutor(new SetBalanceCommand(economyManager));

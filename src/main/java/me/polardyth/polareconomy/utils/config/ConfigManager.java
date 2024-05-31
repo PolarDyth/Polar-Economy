@@ -27,7 +27,7 @@ public class ConfigManager implements FileHandler {
         return new File(PolarSettings.getPlugin().getDataFolder(), fileName);
     }
 
-    public FileConfiguration options() { return fileConfiguration; }
+    public FileConfiguration getConfig() { return fileConfiguration; }
 
     /**
      * Saves any changes to the FileConfiguration to the file on the server
