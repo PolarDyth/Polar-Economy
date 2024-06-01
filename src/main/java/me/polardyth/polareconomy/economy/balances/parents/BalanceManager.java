@@ -1,7 +1,6 @@
-package me.polardyth.polareconomy.utils.economy;
+package me.polardyth.polareconomy.economy.balances.parents;
 
-import me.polardyth.polareconomy.utils.MessageUtil;
-import me.polardyth.polareconomy.utils.config.FileHandler;
+import me.polardyth.polareconomy.economy.balances.interfaces.IBalanceManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -17,7 +16,7 @@ public abstract class BalanceManager implements IBalanceManager {
         this.target = "." + target;
     }
 
-    public double getBalance(UUID playerUUID) {
+    public int getBalance(UUID playerUUID) {
         return dataFile.getInt(playerUUID.toString() + target);
     }
 
@@ -34,10 +33,9 @@ public abstract class BalanceManager implements IBalanceManager {
         UUID uuid = player.getUniqueId();
         if (getBalance(uuid) < amount) {
             player.sendRichMessage(dataFile.getString("pay.error.insufficient-funds"));
+            return;
         }
 
-        if (getBalance(uuid) >= amount) {
-            dataFile.set(uuid + target, getBalance(player.getUniqueId()) - amount);
-        }
+        dataFile.set(uuid + target, getBalance(player.getUniqueId()) - amount);
     }
 }

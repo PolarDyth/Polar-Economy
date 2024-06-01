@@ -1,5 +1,6 @@
-package me.polardyth.polareconomy.utils.economy;
+package me.polardyth.polareconomy.economy.balances;
 
+import me.polardyth.polareconomy.economy.balances.parents.BalanceManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Purse extends BalanceManager {

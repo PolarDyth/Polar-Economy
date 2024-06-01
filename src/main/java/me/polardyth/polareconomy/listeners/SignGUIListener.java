@@ -1,11 +1,10 @@
 package me.polardyth.polareconomy.listeners;
 
-import me.polardyth.polareconomy.menus.bankermenu.BankerMainPage;
-import me.polardyth.polareconomy.systems.MiniColor;
-import me.polardyth.polareconomy.utils.economy.Bank;
-import me.polardyth.polareconomy.utils.economy.EconomyManager;
-import me.polardyth.polareconomy.utils.economy.IBalanceManager;
-import me.polardyth.polareconomy.utils.economy.IStoredMoney;
+import me.polardyth.polareconomy.economy.balances.BalanceType;
+import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
+import me.polardyth.polareconomy.economy.balances.interfaces.IStoredMoney;
+import me.polardyth.polareconomy.menus.banker.BankerMainPage;
+import me.polardyth.polareconomy.utils.MiniColor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,12 +18,12 @@ import java.util.logging.Logger;
 
 public class SignGUIListener implements Listener {
 
-    private final EconomyManager economyManager;
+    private final IEconomyManager economyManager;
     private final Material blockSave;
     private final Location location;
     private final boolean deposit;
 
-    public SignGUIListener(EconomyManager economyManager, Location location, Material blockSave, boolean deposit) {
+    public SignGUIListener(IEconomyManager economyManager, Location location, Material blockSave, boolean deposit) {
         this.economyManager = economyManager;
         this.location = location;
         this.blockSave = blockSave;
@@ -34,8 +33,8 @@ public class SignGUIListener implements Listener {
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
 
-        IBalanceManager purse = economyManager.getStoredMoneyManager("purse");
-        IStoredMoney bank = economyManager.getStoredMoneyManager("bank");
+        IStoredMoney purse = economyManager.getStoredMoneyManager(BalanceType.PURSE);
+        IStoredMoney bank = economyManager.getStoredMoneyManager(BalanceType.BANK);
 
         // Handle sign change event
         Logger.getLogger("Minecraft").info("Debug: Block is currently " + event.getBlock().getLocation() + " and the location is " + location);

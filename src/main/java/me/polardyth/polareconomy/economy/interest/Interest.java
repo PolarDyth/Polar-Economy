@@ -1,27 +1,27 @@
-package me.polardyth.polareconomy.systems;
+package me.polardyth.polareconomy.economy.interest;
 
-import me.polardyth.polareconomy.utils.economy.EconomyManager;
+import me.polardyth.polareconomy.PolarSettings;
+import me.polardyth.polareconomy.economy.balances.BalanceType;
+import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import java.text.DecimalFormat;
 import java.util.logging.Logger;
 
 public class Interest {
 
-    private final EconomyManager economyManager;
-    private final Plugin plugin;
+    private final IEconomyManager economyManager;
+    private final Plugin plugin = PolarSettings.getPlugin();
     private final FileConfiguration dataFile;
     private final FileConfiguration configFile;
     private final int intervalInterest;
 
-    public Interest(EconomyManager economyManager, Plugin plugin) {
+    public Interest(IEconomyManager economyManager, FileConfiguration dataFile, FileConfiguration configFile) {
         this.economyManager = economyManager;
-        this.plugin = plugin;
-        dataFile = economyManager.getData().getConfig("interest");
-        configFile = economyManager.getConfigs().getConfig("interest");
+        this.dataFile = dataFile;
+        this.configFile = configFile;
 
         intervalInterest = configFile.getInt("interest.interval");
     }
@@ -50,16 +50,14 @@ public class Interest {
     }
 
     private void applyInterest() {
-        double interestRate = configFile.getDouble("interest.rate");
-        final DecimalFormat df = new DecimalFormat("0.00");
+        int interestRate = configFile.getInt("interest.rate");
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            double balance = economyManager.getPurseBalance(player.getUniqueId());
-            double interest = balance * (interestRate / 100);
-            double interestRounded = Double.parseDouble(df.format(interest));
-            Logger.getLogger("Minecraft").info("debug: " + interestRounded);
-            economyManager.addPurseBalance(player.getUniqueId(), interestRounded);
-            player.sendRichMessage(configFile.getString("interest.message").replace("{amount}", Double.toString(interestRounded)));
+            int balance = economyManager.getBalanceManager(BalanceType.BANK).getBalance(player.getUniqueId());
+            int interest = balance * (interestRate / 100);
+            Logger.getLogger("Minecraft").info("debug: " + interest);
+            economyManager.getBalanceManager(BalanceType.BANK).setBalance(player.getUniqueId(), interest);
+            player.sendRichMessage(configFile.getString("interest.message").replace("{amount}", Integer.toString(interest)));
         }
 
         saveLastInterestTime();

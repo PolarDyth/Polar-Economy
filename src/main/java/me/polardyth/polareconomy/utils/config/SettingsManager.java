@@ -1,12 +1,14 @@
 package me.polardyth.polareconomy.utils.config;
 
+import me.polardyth.polareconomy.utils.config.interfaces.FileHandler;
+import me.polardyth.polareconomy.utils.config.interfaces.IDataFiles;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SettingsManager implements ISettingsManager {
+public class SettingsManager {
 
     private final Map<String, FileHandler> configs;
 

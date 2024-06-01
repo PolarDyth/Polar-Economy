@@ -1,8 +1,7 @@
-package me.polardyth.polareconomy.menus.bankermenu;
+package me.polardyth.polareconomy.menus;
 
-import me.polardyth.polareconomy.PolarEconomy;
 import me.polardyth.polareconomy.PolarSettings;
-import me.polardyth.polareconomy.systems.MiniColor;
+import me.polardyth.polareconomy.utils.MiniColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,8 +9,6 @@ import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.block.sign.SignSide;
 import org.bukkit.entity.Player;
-
-import java.util.logging.Logger;
 
 public class SignGUI {
 

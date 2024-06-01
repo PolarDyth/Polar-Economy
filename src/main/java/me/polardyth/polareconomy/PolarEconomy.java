@@ -4,13 +4,18 @@ import me.polardyth.polareconomy.commands.BalanceCommand;
 import me.polardyth.polareconomy.commands.BankCommand;
 import me.polardyth.polareconomy.commands.PayCommand;
 import me.polardyth.polareconomy.commands.SetBalanceCommand;
+import me.polardyth.polareconomy.economy.balances.BalanceType;
+import me.polardyth.polareconomy.economy.balances.Bank;
+import me.polardyth.polareconomy.economy.EconomyManager;
+import me.polardyth.polareconomy.economy.balances.Purse;
+import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
 import me.polardyth.polareconomy.listeners.MenuListener;
-import me.polardyth.polareconomy.systems.Interest;
-import me.polardyth.polareconomy.utils.economy.Bank;
-import me.polardyth.polareconomy.utils.economy.EconomyManager;
+import me.polardyth.polareconomy.economy.interest.Interest;
 import me.polardyth.polareconomy.utils.MessageUtil;
-import me.polardyth.polareconomy.utils.config.SettingsManager;
-import me.polardyth.polareconomy.utils.economy.Purse;
+import me.polardyth.polareconomy.utils.config.ConfigFiles;
+import me.polardyth.polareconomy.utils.config.DataFiles;
+import me.polardyth.polareconomy.utils.config.interfaces.IConfigFiles;
+import me.polardyth.polareconomy.utils.config.interfaces.IDataFiles;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,18 +28,18 @@ public final class PolarEconomy extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
 
-        PolarSettings.onLoad(this);
+        IConfigFiles configFiles = new ConfigFiles("banker", "config", "interest");
+        IDataFiles dataFiles = new DataFiles("balances", "interest");
 
-        SettingsManager configFiles = new SettingsManager(false, "banker", "config", "interest");
-        SettingsManager dataFiles = new SettingsManager(true, "balances", "interest");
+        PolarSettings.onLoad(this, dataFiles, configFiles);
 
         FileConfiguration config = configFiles.getConfig("config");
         FileConfiguration interestConfig = configFiles.getConfig("interest");
 
-        EconomyManager economyManager = new EconomyManager(new Purse(dataFiles.getConfig("balances"), "purse"),
+        IEconomyManager economyManager = new EconomyManager(new Purse(dataFiles.getConfig("balances"), "purse"),
                 new Bank(dataFiles.getConfig("balances"), "bank"));
-        getCommand("balance").setExecutor(new BalanceCommand(economyManager));
-        getCommand("pay").setExecutor(new PayCommand(economyManager));
+        getCommand("balance").setExecutor(new BalanceCommand(economyManager.getBalanceManager(BalanceType.PURSE)));
+        getCommand("pay").setExecutor(new PayCommand(economyManager.getBalanceManager(BalanceType.PURSE)));
         getCommand("setbalance").setExecutor(new SetBalanceCommand(economyManager));
         getCommand("bank").setExecutor(new BankCommand(economyManager));
 
@@ -49,7 +54,7 @@ public final class PolarEconomy extends JavaPlugin implements Listener {
 
         if (interestConfig.getBoolean("interest.enabled")) {
             try {
-                interest = new Interest(economyManager, this);
+                interest = new Interest(economyManager, dataFiles.getConfig("interest"), interestConfig);
                 interest.scheduleInterest();
             } catch (Exception e) {
                 e.printStackTrace();

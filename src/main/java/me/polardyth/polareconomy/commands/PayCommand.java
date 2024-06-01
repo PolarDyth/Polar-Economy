@@ -1,6 +1,8 @@
 package me.polardyth.polareconomy.commands;
 
-import me.polardyth.polareconomy.utils.economy.EconomyManager;
+import me.polardyth.polareconomy.PolarSettings;
+import me.polardyth.polareconomy.economy.balances.interfaces.IBalanceManager;
+import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
 import me.polardyth.polareconomy.utils.config.SettingsManager;
 import org.bukkit.Bukkit;
@@ -15,13 +17,12 @@ import org.jetbrains.annotations.NotNull;
 public class PayCommand implements CommandExecutor {
 
 
-    private final EconomyManager economyManager;
+    private final IBalanceManager purse;
     private final FileConfiguration config;
 
-    public PayCommand(EconomyManager economyManager) {
-        this.economyManager = economyManager;
-        SettingsManager configFiles = economyManager.getConfigs();
-        config = configFiles.getConfig("config");
+    public PayCommand(IBalanceManager purse) {
+        this.purse = purse;
+        config = PolarSettings.getPlugin().getConfig();
     }
 
     @Override
@@ -49,46 +50,21 @@ public class PayCommand implements CommandExecutor {
             return true;
         }
 
-        double amount;
+        int amount;
         try {
-            amount = Double.parseDouble(strings[1]);
+            amount = Integer.parseInt(strings[1]);
         } catch (NumberFormatException e) {
             player.sendRichMessage(MessageUtil.getNotNumberMessage());
             return true;
         }
 
-        if (amount <= 0) {
-            player.sendRichMessage(MessageUtil.getNegativeNumberMessage());
-            return true;
-        }
-
-        if (hasTooManyDecimals(amount)) {
-            player.sendRichMessage(MessageUtil.getTooManyDecimalsMessage());
-            return true;
-        }
-
-        if (economyManager.removePurseBalance(player.getUniqueId(), amount)) {
-            economyManager.addPurseBalance(target.getUniqueId(), amount);
-            player.sendRichMessage(config.getString("pay.payment-success").replace("{target}", targetName).replace("{amount}", Double.toString(amount)));
-            if (target.isOnline()) {
-                ((Player) target).sendMessage(config.getString("pay.payment-received").replace("{player}", player.getName()).replace("{amount}", Double.toString(amount)));
-            }
-        } else {
-            player.sendRichMessage(config.getString("pay.error.insufficient-funds"));
+        purse.removeBalance(player, amount);
+        purse.addBalance(target.getUniqueId(), amount);
+        player.sendRichMessage(config.getString("pay.payment-success").replace("{target}", targetName).replace("{amount}", Double.toString(amount)));
+        if (target.isOnline()) {
+            ((Player) target).sendMessage(config.getString("pay.payment-received").replace("{player}", player.getName()).replace("{amount}", Double.toString(amount)));
         }
 
         return true;
-    }
-
-    private boolean hasTooManyDecimals(double amount) {
-        String text = Double.toString(amount);
-        int integerPlace = text.indexOf('.');
-        int decimalPlace = text.length() - integerPlace - 1;
-
-        if (decimalPlace > 2) {
-            return true;
-        }
-
-        return false;
     }
 }

@@ -1,6 +1,6 @@
 package me.polardyth.polareconomy.listeners;
 
-import me.polardyth.polareconomy.systems.MenuMaker;
+import me.polardyth.polareconomy.menus.utils.MenuMaker;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

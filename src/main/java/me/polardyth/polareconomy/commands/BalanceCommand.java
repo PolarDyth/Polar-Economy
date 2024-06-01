@@ -1,6 +1,8 @@
 package me.polardyth.polareconomy.commands;
 
-import me.polardyth.polareconomy.utils.economy.EconomyManager;
+import me.polardyth.polareconomy.PolarSettings;
+import me.polardyth.polareconomy.economy.balances.interfaces.IBalanceManager;
+import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
 import me.polardyth.polareconomy.utils.config.SettingsManager;
 import org.bukkit.command.Command;
@@ -12,13 +14,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class BalanceCommand implements CommandExecutor {
 
-    private final EconomyManager economyManager;
+    private final IBalanceManager purse;
     private final FileConfiguration config;
 
-    public BalanceCommand(EconomyManager economyManager) {
-        this.economyManager = economyManager;
-        SettingsManager configFiles = economyManager.getConfigs();
-        this.config = configFiles.getConfig("config");
+    public BalanceCommand(IBalanceManager purse) {
+        this.purse = purse;
+        config = PolarSettings.getPlugin().getConfig();
 
     }
 
@@ -30,8 +31,8 @@ public class BalanceCommand implements CommandExecutor {
             return true;
         }
 
-        double balance = economyManager.getPurseBalance(player.getUniqueId());
-        player.sendRichMessage(config.getString("balance.balance-message").replace("{balance}", Double.toString(balance)));
+        int balance = purse.getBalance(player.getUniqueId());
+        player.sendRichMessage(config.getString("balance.balance-message").replace("{balance}", Integer.toString(balance)));
         return true;
      }
 }

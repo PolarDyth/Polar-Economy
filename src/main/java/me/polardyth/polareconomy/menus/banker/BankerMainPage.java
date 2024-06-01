@@ -1,8 +1,11 @@
-package me.polardyth.polareconomy.menus.bankermenu;
+package me.polardyth.polareconomy.menus.banker;
 
-import me.polardyth.polareconomy.systems.MenuMaker;
-import me.polardyth.polareconomy.systems.MiniColor;
-import me.polardyth.polareconomy.utils.economy.EconomyManager;
+import me.polardyth.polareconomy.PolarSettings;
+import me.polardyth.polareconomy.economy.balances.BalanceType;
+import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
+import me.polardyth.polareconomy.economy.balances.interfaces.IStoredMoney;
+import me.polardyth.polareconomy.menus.banker.parents.BankerDefault;
+import me.polardyth.polareconomy.utils.MiniColor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,20 +17,17 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BankerMainPage extends MenuMaker {
-    private final FileConfiguration bankerConfig;
-    private final EconomyManager economyManager;
+public class BankerMainPage extends BankerDefault {
+    private final FileConfiguration config;
+    private final IEconomyManager economyManager;
+    private final IStoredMoney bank;
 
-    public BankerMainPage(EconomyManager economyManager, Player player) {
+    public BankerMainPage(IEconomyManager economyManager, Player player) {
+        super(economyManager.getStoredMoneyManager(BalanceType.BANK), player);
 
-
-        super(36, "banker");
-        bankerConfig = economyManager.getConfigs().getConfig("banker");
+        config = PolarSettings.getConfigFiles().getConfig("banker");
         this.economyManager = economyManager;
-
-        for (int i = 0; i < 36; i++) {
-            setItem(i, blackPane());
-        }
+        bank = economyManager.getStoredMoneyManager(BalanceType.BANK);
 
         setItem(11, depositButton(player), depositAction());
         setItem(13, withdrawButton(player), withdrawAction());
@@ -36,31 +36,14 @@ public class BankerMainPage extends MenuMaker {
         setItem(32, informationButton());
     }
 
-    private ItemStack blackPane() {
-        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta meta = item.getItemMeta();
-
-        meta.displayName(MiniColor.TEXT.deserialize("<black>"));
-        meta.lore();
-        item.setItemMeta(meta);
-
-        return item;
-    }
-
     private ItemStack depositButton(Player player) {
 
         ItemStack item = new ItemStack(Material.CHEST);
         ItemMeta meta = item.getItemMeta();
 
-        List<Component> loreList = new ArrayList<>();
+        meta.displayName(MiniColor.TEXT.deserialize(config.getString("menu.main-page.deposit-button.title")));
 
-        meta.displayName(MiniColor.TEXT.deserialize(bankerConfig.getString("menu.main-page.deposit-button.title")));
-
-        for (String lore : bankerConfig.getStringList("menu.main-page.deposit-button.lore")) {
-            loreList.add(MiniColor.TEXT.deserialize(lore.replace("{bank_balance}", Double.toString(economyManager.getBankBalance(player.getUniqueId())))));
-        }
-
-        meta.lore(loreList);
+        meta.lore(replaceText(config.getStringList("menu.main-page.deposit-button.lore")));
         item.setItemMeta(meta);
 
         return item;
@@ -73,10 +56,10 @@ public class BankerMainPage extends MenuMaker {
 
         List<Component> loreList = new ArrayList<>();
 
-        meta.displayName(MiniColor.TEXT.deserialize(bankerConfig.getString("menu.main-page.withdraw-button.title")));
+        meta.displayName(MiniColor.TEXT.deserialize(config.getString("menu.main-page.withdraw-button.title")));
 
-        for (String lore : bankerConfig.getStringList("menu.main-page.withdraw-button.lore")) {
-            loreList.add(MiniColor.TEXT.deserialize(lore.replace("{balance}", Double.toString(economyManager.getBankBalance(player.getUniqueId())))));
+        for (String lore : config.getStringList("menu.main-page.withdraw-button.lore")) {
+            loreList.add(MiniColor.TEXT.deserialize(lore.replace("{balance}", Integer.toString(bank.getBalance(player.getUniqueId())))));
         }
 
         meta.lore(loreList);
@@ -92,7 +75,7 @@ public class BankerMainPage extends MenuMaker {
 
         List<Component> loreList = new ArrayList<>();
 
-        meta.displayName(MiniColor.TEXT.deserialize(bankerConfig.getString("menu.main-page.recent-transactions.title")));
+        meta.displayName(MiniColor.TEXT.deserialize(config.getString("menu.main-page.recent-transactions.title")));
 
         loreList.add(MiniColor.TEXT.deserialize("<red>! Work in progress !</red>"));
 
@@ -123,9 +106,9 @@ public class BankerMainPage extends MenuMaker {
 
         List<Component> loreList = new ArrayList<>();
 
-        meta.displayName(MiniColor.TEXT.deserialize(bankerConfig.getString("menu.main-page.information-button.title")));
+        meta.displayName(MiniColor.TEXT.deserialize(config.getString("menu.main-page.information-button.title")));
 
-        for (String lore : bankerConfig.getStringList("menu.main-page.information-button.lore")) {
+        for (String lore : config.getStringList("menu.main-page.information-button.lore")) {
             loreList.add(MiniColor.TEXT.deserialize(lore));
         }
 

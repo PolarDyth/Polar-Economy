@@ -1,4 +1,4 @@
-package me.polardyth.polareconomy.utils.economy;
+package me.polardyth.polareconomy.economy.balances.interfaces;
 
 import org.bukkit.entity.Player;
 

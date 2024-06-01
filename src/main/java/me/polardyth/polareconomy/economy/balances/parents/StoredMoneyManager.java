@@ -1,11 +1,10 @@
-package me.polardyth.polareconomy.utils.economy;
+package me.polardyth.polareconomy.economy.balances.parents;
 
+import me.polardyth.polareconomy.economy.balances.interfaces.IBalanceManager;
+import me.polardyth.polareconomy.economy.balances.interfaces.IStoredMoney;
 import me.polardyth.polareconomy.utils.MessageUtil;
-import me.polardyth.polareconomy.utils.config.FileHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 public abstract class StoredMoneyManager extends BalanceManager implements IStoredMoney {
 
