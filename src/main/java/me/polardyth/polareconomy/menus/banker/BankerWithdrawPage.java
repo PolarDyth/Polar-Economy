@@ -31,7 +31,7 @@ public class BankerWithdrawPage extends BankerDefault {
         super(economyManager.getStoredMoneyManager(BalanceType.BANK), player);
 
         this.economyManager = economyManager;
-        config = PolarSettings.getConfigFiles().getConfig("banker");
+        config = PolarSettings.getConfigFiles().getFile("banker").getConfig();
         bank = economyManager.getStoredMoneyManager(BalanceType.BANK);
         purse = economyManager.getBalanceManager(BalanceType.PURSE);
 
@@ -77,7 +77,7 @@ public class BankerWithdrawPage extends BankerDefault {
 
         meta.displayName(MiniColor.TEXT.deserialize(config.getString("menu.withdraw-page.withdraw-half.title")));
 
-        int amount = bank.getBalance(player.getUniqueId()) / 2;
+        long amount = bank.getBalance(player.getUniqueId()) / 2;
 
         meta.lore(replaceText(config.getStringList("menu.withdraw-page.withdraw-half.lore"), amount));
         item.setItemMeta(meta);

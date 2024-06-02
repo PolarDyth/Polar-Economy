@@ -31,8 +31,8 @@ public class BalanceCommand implements CommandExecutor {
             return true;
         }
 
-        int balance = purse.getBalance(player.getUniqueId());
-        player.sendRichMessage(config.getString("balance.balance-message").replace("{balance}", Integer.toString(balance)));
+        long balance = purse.getBalance(player.getUniqueId());
+        player.sendRichMessage(config.getString("balance.balance-message").replace("{balance}", Long.toString(balance)));
         return true;
      }
 }

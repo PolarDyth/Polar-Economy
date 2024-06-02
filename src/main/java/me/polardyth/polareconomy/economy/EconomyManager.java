@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class EconomyManager implements IEconomyManager {
 
-    private final Map<String, IBalanceManager> balanceManagers = new HashMap<>();
+    private final Map<BalanceType, IBalanceManager> balanceManagers = new HashMap<>();
 
     public EconomyManager(IBalanceManager... balanceManager) {
 

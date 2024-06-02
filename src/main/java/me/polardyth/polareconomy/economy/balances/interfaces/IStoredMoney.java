@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 public interface IStoredMoney extends IBalanceManager {
 
-    public void withdrawFunds(int amount, Player player, IBalanceManager to);
+    public void withdrawFunds(long amount, Player player, IBalanceManager to);
 
-    public void depositFunds(int amount, Player player, IBalanceManager from);
+    public void depositFunds(long amount, Player player, IBalanceManager from);
 }

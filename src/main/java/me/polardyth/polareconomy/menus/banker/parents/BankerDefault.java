@@ -1,6 +1,7 @@
 package me.polardyth.polareconomy.menus.banker.parents;
 
 import me.polardyth.polareconomy.economy.balances.interfaces.IStoredMoney;
+import me.polardyth.polareconomy.placeholders.Placeholder;
 import me.polardyth.polareconomy.utils.MenuMaker;
 import me.polardyth.polareconomy.utils.MiniColor;
 import net.kyori.adventure.text.Component;
@@ -39,12 +40,10 @@ public abstract class BankerDefault extends MenuMaker {
         return item;
     }
 
-    public List<Component> replaceText(List<String> path, int amount) {
+    public List<Component> replaceText(List<String> path, long amount) {
         List<Component> loreList = new ArrayList<>();
         for (String lore: path) {
-            loreList.add(MiniColor.TEXT.deserialize(lore
-                    .replace("{bank_balance}", Double.toString(bank.getBalance(player.getUniqueId())))
-                    .replace("{amount}", Double.toString(amount))));
+            loreList.add(MiniColor.TEXT.deserialize(Placeholder.applyPlaceholders(player, amount, lore)));
         }
         return loreList;
     }

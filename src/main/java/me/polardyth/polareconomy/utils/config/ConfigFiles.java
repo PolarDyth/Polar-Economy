@@ -19,12 +19,7 @@ public class ConfigFiles implements IConfigFiles {
     }
 
     @Override
-    public FileConfiguration getConfig(String fileName) {
-        return data.get(fileName).getConfig();
-    }
-
-    @Override
-    public void save(String fileName) {
-        data.get(fileName).saveFile();
+    public FileHandler getFile(String fileName) {
+        return data.get(fileName);
     }
 }

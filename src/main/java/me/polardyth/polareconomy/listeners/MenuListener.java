@@ -1,6 +1,7 @@
 package me.polardyth.polareconomy.listeners;
 
-import me.polardyth.polareconomy.menus.utils.MenuMaker;
+import me.polardyth.polareconomy.utils.MenuMaker;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,6 +26,7 @@ public class MenuListener implements Listener {
             MenuMaker.MenuAction action = menu.getActions().get(event.getSlot());
 
             if (action != null) {
+                player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, 10, 2);
                 action.click(player);
             }
         }

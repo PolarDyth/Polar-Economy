@@ -11,4 +11,4 @@ interest:
 
   # Message shown to the player when interest is applied.
   # {amount} will be replaced with the interest amount.
-  message: '<green>You received <gold>{amount}</gold> as interest.</green>'
+  message: '<green>You received <gold>{amount} <green>as interest.'

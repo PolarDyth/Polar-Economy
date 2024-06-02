@@ -25,7 +25,7 @@ public class SetBalanceCommand implements CommandExecutor {
 
     public SetBalanceCommand(IEconomyManager economyManager) {
         purse = economyManager.getBalanceManager(BalanceType.PURSE);
-        config = PolarSettings.getConfigFiles().getConfig("config");
+        config = PolarSettings.getConfigFiles().getFile("config").getConfig();
     }
 
     @Override
@@ -57,10 +57,10 @@ public class SetBalanceCommand implements CommandExecutor {
         }
 
         purse.setBalance(target.getUniqueId(), amount);
-        commandSender.sendRichMessage(config.getString("set-balance.success-to-player").replace("{amount}", Double.toString(amount)).replace("{target}", target.getName()));
+        commandSender.sendRichMessage(config.getString("set-balance.success-to-player").replace("{amount}", Integer.toString(amount)).replace("{target}", target.getName()));
 
         if (target.isOnline() && config.getBoolean("set-balance.send-message-to-target")) {
-            ((Player) target).sendRichMessage(config.getString("set-balance.success-to-target").replace("{amount}", Double.toString(amount)));
+            ((Player) target).sendRichMessage(config.getString("set-balance.success-to-target").replace("{amount}", Integer.toString(amount)));
         }
 
         return true;

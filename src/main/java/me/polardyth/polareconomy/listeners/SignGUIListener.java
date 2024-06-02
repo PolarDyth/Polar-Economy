@@ -1,6 +1,7 @@
 package me.polardyth.polareconomy.listeners;
 
 import me.polardyth.polareconomy.economy.balances.BalanceType;
+import me.polardyth.polareconomy.economy.balances.interfaces.IBalanceManager;
 import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
 import me.polardyth.polareconomy.economy.balances.interfaces.IStoredMoney;
 import me.polardyth.polareconomy.menus.banker.BankerMainPage;
@@ -33,7 +34,7 @@ public class SignGUIListener implements Listener {
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
 
-        IStoredMoney purse = economyManager.getStoredMoneyManager(BalanceType.PURSE);
+        IBalanceManager purse = economyManager.getBalanceManager(BalanceType.PURSE);
         IStoredMoney bank = economyManager.getStoredMoneyManager(BalanceType.BANK);
 
         // Handle sign change event

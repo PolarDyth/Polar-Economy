@@ -30,7 +30,7 @@ public class BankerDepositPage extends BankerDefault {
         super(economyManager.getStoredMoneyManager(BalanceType.BANK), player);
 
         this.economyManager = economyManager;
-        config = PolarSettings.getConfigFiles().getConfig("banker");
+        config = PolarSettings.getConfigFiles().getFile("banker").getConfig();
         bank = economyManager.getStoredMoneyManager(BalanceType.BANK);
         purse = economyManager.getBalanceManager(BalanceType.PURSE);
 
@@ -75,7 +75,7 @@ public class BankerDepositPage extends BankerDefault {
 
         meta.displayName(MiniColor.TEXT.deserialize(config.getString("menu.deposit-page.deposit-half.title")));
 
-        int amount = economyManager.getBalanceManager(BalanceType.PURSE).getBalance(player.getUniqueId()) / 2;
+        var amount = economyManager.getBalanceManager(BalanceType.PURSE).getBalance(player.getUniqueId()) / 2;
 
         meta.lore(replaceText(config.getStringList("menu.deposit-page.deposit-half.lore"), amount));
 
@@ -130,7 +130,7 @@ public class BankerDepositPage extends BankerDefault {
 
     private MenuAction depositAllAction() {
         return player -> {
-            int amount = economyManager.getBalanceManager(BalanceType.PURSE).getBalance(player.getUniqueId());
+            long amount = economyManager.getBalanceManager(BalanceType.PURSE).getBalance(player.getUniqueId());
             bank.depositFunds(amount, player, economyManager.getBalanceManager(BalanceType.PURSE));
 
             BankerMainPage mainPage = new BankerMainPage(economyManager, player);
@@ -141,7 +141,7 @@ public class BankerDepositPage extends BankerDefault {
     private MenuAction depositHalfAction() {
         return player -> {
 
-            int amount = economyManager.getBalanceManager(BalanceType.PURSE).getBalance(player.getUniqueId()) / 2;
+            long amount = economyManager.getBalanceManager(BalanceType.PURSE).getBalance(player.getUniqueId()) / 2;
             bank.depositFunds(amount, player, economyManager.getBalanceManager(BalanceType.PURSE));
 
             BankerMainPage mainPage = new BankerMainPage(economyManager, player);

@@ -5,6 +5,7 @@ import me.polardyth.polareconomy.economy.balances.BalanceType;
 import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
 import me.polardyth.polareconomy.economy.balances.interfaces.IStoredMoney;
 import me.polardyth.polareconomy.menus.banker.parents.BankerDefault;
+import me.polardyth.polareconomy.placeholders.Placeholder;
 import me.polardyth.polareconomy.utils.MiniColor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -25,7 +26,7 @@ public class BankerMainPage extends BankerDefault {
     public BankerMainPage(IEconomyManager economyManager, Player player) {
         super(economyManager.getStoredMoneyManager(BalanceType.BANK), player);
 
-        config = PolarSettings.getConfigFiles().getConfig("banker");
+        config = PolarSettings.getConfigFiles().getFile("banker").getConfig();
         this.economyManager = economyManager;
         bank = economyManager.getStoredMoneyManager(BalanceType.BANK);
 
@@ -59,7 +60,7 @@ public class BankerMainPage extends BankerDefault {
         meta.displayName(MiniColor.TEXT.deserialize(config.getString("menu.main-page.withdraw-button.title")));
 
         for (String lore : config.getStringList("menu.main-page.withdraw-button.lore")) {
-            loreList.add(MiniColor.TEXT.deserialize(lore.replace("{balance}", Integer.toString(bank.getBalance(player.getUniqueId())))));
+            loreList.add(MiniColor.TEXT.deserialize(Placeholder.applyPlaceholders(player, lore)));
         }
 
         meta.lore(loreList);
