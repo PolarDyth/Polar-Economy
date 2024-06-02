@@ -1,57 +1,68 @@
 package me.polardyth.polareconomy.commands;
 
-import me.polardyth.polareconomy.utils.EconomyManager;
+import me.polardyth.polareconomy.PolarSettings;
+import me.polardyth.polareconomy.economy.balances.interfaces.IBalanceManager;
+import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
+import me.polardyth.polareconomy.utils.MessageUtil;
+import me.polardyth.polareconomy.utils.config.SettingsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class PayCommand implements CommandExecutor {
 
-    private final EconomyManager economyManager;
 
-    public PayCommand(EconomyManager economyManager) {
-        this.economyManager = economyManager;
+    private final IBalanceManager purse;
+    private final FileConfiguration config;
+
+    public PayCommand(IBalanceManager purse) {
+        this.purse = purse;
+        config = PolarSettings.getPlugin().getConfig();
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
         if (!(commandSender instanceof Player player)) {
-            commandSender.sendMessage("Only a player can use this command");
+            commandSender.sendRichMessage(MessageUtil.getNotPlayerMessage());
             return true;
         }
 
         if (strings.length != 2) {
-            commandSender.sendMessage("Usage: /pay <player> <amount>");
+            player.sendRichMessage(config.getString("pay.usage"));
             return true;
         }
 
-        OfflinePlayer target = Bukkit.getOfflinePlayer(strings[0]);
-        double amount;
+        String targetName = strings[0];
+        if (player.getName().equalsIgnoreCase(targetName)) {
+            player.sendRichMessage(config.getString("pay.error.self-payment"));
+            return true;
+        }
 
+        OfflinePlayer target = Bukkit.getOfflinePlayerIfCached(targetName);
+        if (target == null || !target.hasPlayedBefore()) {
+            player.sendRichMessage(MessageUtil.getPlayerNotFoundMessage());
+            return true;
+        }
+
+        int amount;
         try {
-            amount = Double.parseDouble(strings[1]);
+            amount = Integer.parseInt(strings[1]);
         } catch (NumberFormatException e) {
-            player.sendMessage("Invalid amount.");
+            player.sendRichMessage(MessageUtil.getNotNumberMessage());
             return true;
         }
 
-        if (amount <= 0) {
-            player.sendMessage("Amount must be positive");
-        }
-
-        if (economyManager.removeBalance(player.getUniqueId(), amount)) {
-            economyManager.addBalance(target.getUniqueId(), amount);
-            player.sendMessage("You paid " + amount + " to " + target.getName() + ".");
-            if (target.isOnline()) {
-                ((Player) target).sendMessage("You received + " + amount + " from " + player.getName() + ".");
-            }
-        } else {
-            player.sendMessage("You do not have the required funds.");
+        purse.removeBalance(player, amount);
+        purse.addBalance(target.getUniqueId(), amount);
+        player.sendRichMessage(config.getString("pay.payment-success").replace("{target}", targetName).replace("{amount}", Double.toString(amount)));
+        if (target.isOnline()) {
+            ((Player) target).sendMessage(config.getString("pay.payment-received").replace("{player}", player.getName()).replace("{amount}", Double.toString(amount)));
         }
 
         return true;

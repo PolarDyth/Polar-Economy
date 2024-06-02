@@ -1,0 +1,111 @@
+menu:
+  main-page:
+    title: '<green>Banker'
+    deposit-button:
+      title: '<green>Deposit Coins</green>'
+      lore:
+        - '<gray>Current Balance: <gold>{bank_balance}'
+        - ''
+        - '<gray>Store coins in the bank to keep them'
+        - '<gray>safe and earn interest on them!'
+        - ''
+        - '<gray>You will earn <aqua>2%<gray> interest every season'
+        - '<gray>for your first <gold>10 million<gray> banked coins.'
+        - ''
+        - '<gray>Until next interest: <aqua>{interest_time}'
+        - ''
+        - '<yellow>Click to make a deposit'
+    withdraw-button:
+      title: '<green>Withdraw Coins'
+      lore:
+        - '<gray>Current Balance: <gold>{bank_balance}'
+        - ''
+        - '<gray>Take coins out of the bank in'
+        - '<gray>order to spend them.'
+        - ''
+        - '<yellow>Click to withdraw coins!'
+    recent-transactions:
+      title: '<green>Recent Transactions'
+    information-button:
+      title: '<green>Bank Information'
+      lore:
+        - '<gray>Keep your coins safe in the bank!'
+        - '<gray>You lose half the coins in your purse'
+        - '<gray>when dying in combat'
+        - ''
+        - '<gray>Balance limit: <gold>50 million'
+        - ''
+        - '<gray>The banker rewards you every 31 hours with interest for coins ni your bank balance'
+  deposit-page:
+    title: '<green>Deposit Coins'
+    specific-amount-button:
+      title: '<green>Specific amount</green>'
+      lore:
+        - '<gray>Current balance: <gold>{bank_balance}'
+        - ''
+        - '<yellow>Click to deposit coins'
+    deposit-all:
+        title: '<green>Your whole purse</green>'
+        lore:
+            - '<dark_gray>Bank deposit'
+            - ''
+            - '<gray>Current balance: <gold>{bank_balance}'
+            - '<gray>Amount to deposit: <gold>{amount}'
+            - ''
+            - '<yellow>Click to deposit coins'
+    deposit-half:
+      title: '<green>Half your purse</green>'
+      lore:
+          - '<dark_gray>Bank deposit'
+          - ''
+          - '<gray>Current balance: <gold>{bank_balance}'
+          - '<gray>Amount to deposit: <gold>{amount}'
+          - ''
+          - '<yellow>Click to deposit coins'
+    back-button:
+      title: '<green>Go back'
+      lore:
+        - '<gray>To Personal Bank Account'
+  withdraw-page:
+    title: '<green>Withdraw Coins'
+    specific-amount-button:
+      title: '<green>Specific amount</green>'
+      lore:
+        - '<gray>Current balance: <gold>{bank_balance}'
+        - ''
+        - '<yellow>Click to withdraw coins'
+    withdraw-all:
+      title: '<green>Everything in the account</green>'
+      lore:
+          - '<dark_gray>Bank withdrawal'
+          - ''
+          - '<gray>Current balance: <gold>{bank_balance}'
+          - '<gray>Amount to withdraw: <gold>{amount}'
+          - ''
+          - '<yellow>Click to withdraw coins'
+    withdraw-half:
+      title: '<green>Half bank balance</green>'
+      lore:
+          - '<dark_gray>Bank withdraw'
+          - ''
+          - '<gray>Current balance: <gold>{bank_balance}'
+          - '<gray>Amount to withdraw: <gold>{amount}'
+          - ''
+          - '<yellow>Click to withdraw coins'
+    withdraw-20:
+      title: '<green>Withdraw 20%</green>'
+      lore:
+          - '<dark_gray>Bank withdraw'
+          - ''
+          - '<gray>Current balance: <gold>{bank_balance}'
+          - '<gray>Amount to withdraw: <gold>{amount}'
+          - ''
+          - '<yellow>Click to withdraw coins'
+    back-button:
+      title: '<green>Go back'
+      lore:
+        - '<gray>To Personal Bank Account'
+
+messages:
+  withdraw: '<green>You have withdrawn <gold>{amount_formatted} coins<green>! you now have <gold>{bank_balance_formatted} coins<green> in your bank account.'
+  deposit: '<green>You have deposited <gold>{amount_formatted} coins<green>! you now have <gold>{bank_balance_formatted} coins<green> in your bank account.'

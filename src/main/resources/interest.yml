@@ -1,0 +1,14 @@
+# Section for interest configuration.#
+interest:
+  # Whether to enable interest for all players.
+  enabled: true
+
+  # The interest rate in percentage.
+  rate: 1.0
+
+  # The interval in seconds at which interest is applied.
+  interval: 60
+
+  # Message shown to the player when interest is applied.
+  # {amount} will be replaced with the interest amount.
+  message: '<green>You received <gold>{amount} <green>as interest.'

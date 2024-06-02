@@ -3,6 +3,9 @@ version: '${project.version}'
 main: me.polardyth.polareconomy.PolarEconomy
 api-version: '1.20'
 author: PolarDyth
+softdepend:
+  - ProtocolLib
+  - PlaceholderAPI
 commands:
   balance:
     description: Check your balance.
@@ -13,3 +16,7 @@ commands:
     description: Set a player's balance (admin only).
     usage: /setbalance <player> <amount>
     permission: polareconomy.setbalance
+  bank:
+    description: Check the bank balance.
+    usage: /bank
+    permission: polareconomy.bank
