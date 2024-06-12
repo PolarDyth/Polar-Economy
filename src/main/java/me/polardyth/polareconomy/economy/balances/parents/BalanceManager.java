@@ -1,14 +1,17 @@
 package me.polardyth.polareconomy.economy.balances.parents;
 
-import me.polardyth.polareconomy.economy.balances.interfaces.IBalanceManager;
-import me.polardyth.polareconomy.utils.config.interfaces.FileHandler;
-import me.polardyth.polareconomy.utils.config.interfaces.IDataFiles;
+import me.polardyth.polareconomy.PolarSettings;
+import me.polardyth.polareconomy.economy.balances.interfaces.MoneyType;
+import me.polardyth.polareconomy.systems.transactionhistory.Transaction;
+import me.polardyth.polareconomy.systems.transactionhistory.TransactionSource;
+import me.polardyth.polareconomy.systems.transactionhistory.TransactionType;
+import me.polardyth.polareconomy.utils.files.interfaces.FileHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public abstract class BalanceManager implements IBalanceManager {
+public abstract class BalanceManager implements MoneyType {
 
     private final FileHandler dataFile;
     private final FileConfiguration dataConfig;
@@ -30,19 +33,24 @@ public abstract class BalanceManager implements IBalanceManager {
     }
 
 
-    public void addBalance(UUID playerUUID, long amount) {
-        dataConfig.set(playerUUID.toString() + target, getBalance(playerUUID) + amount);
-        dataFile.saveFile();
+    public void addBalance(UUID playerUUID, long amount, TransactionType type, String source, String destination) {
+        updateBalance(playerUUID, amount, type, source, destination, true);
     }
 
-    public void removeBalance(Player player, long amount) {
-        UUID uuid = player.getUniqueId();
-        if (getBalance(uuid) < amount) {
+    public void removeBalance(Player player, long amount, TransactionType type, String source, String destination) {
+        if (getBalance(player.getUniqueId()) < amount) {
             player.sendRichMessage(dataConfig.getString("pay.error.insufficient-funds"));
             return;
         }
+        updateBalance(player.getUniqueId(), amount, type, source, destination, false);
+    }
 
-        dataConfig.set(uuid + target, getBalance(player.getUniqueId()) - amount);
+    private void updateBalance(UUID playerUUID, long amount, TransactionType type, String source, String destination, boolean isAdding) {
+        long newBalance = isAdding ? getBalance(playerUUID) + amount : getBalance(playerUUID) - amount;
+        dataConfig.set(playerUUID.toString() + target, newBalance);
         dataFile.saveFile();
+
+        Transaction transaction = new Transaction(playerUUID, source, destination, amount, type, System.currentTimeMillis());
+        PolarSettings.getTransactionHandler().createTransaction(transaction);
     }
 }

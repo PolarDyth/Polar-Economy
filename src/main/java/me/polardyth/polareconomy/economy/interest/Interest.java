@@ -2,8 +2,8 @@ package me.polardyth.polareconomy.economy.interest;
 
 import me.polardyth.polareconomy.PolarSettings;
 import me.polardyth.polareconomy.economy.balances.BalanceType;
-import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
-import me.polardyth.polareconomy.utils.config.interfaces.FileHandler;
+import me.polardyth.polareconomy.economy.EconomyManager;
+import me.polardyth.polareconomy.utils.files.interfaces.FileHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -13,14 +13,14 @@ import java.util.logging.Logger;
 
 public class Interest {
 
-    private final IEconomyManager economyManager;
+    private final EconomyManager economyManager;
     private final Plugin plugin = PolarSettings.getPlugin();
     private final FileHandler dataFile;
     private final FileConfiguration dataConfig;
     private final FileConfiguration configFile;
     private final int intervalInterest;
 
-    public Interest(IEconomyManager economyManager, FileHandler dataFile, FileConfiguration configFile) {
+    public Interest(EconomyManager economyManager, FileHandler dataFile, FileConfiguration configFile) {
         this.economyManager = economyManager;
         this.dataFile = dataFile;
         this.configFile = configFile;

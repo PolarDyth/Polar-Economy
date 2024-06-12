@@ -1,9 +1,9 @@
 package me.polardyth.polareconomy.listeners;
 
 import me.polardyth.polareconomy.economy.balances.BalanceType;
-import me.polardyth.polareconomy.economy.balances.interfaces.IBalanceManager;
-import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
-import me.polardyth.polareconomy.economy.balances.interfaces.IStoredMoney;
+import me.polardyth.polareconomy.economy.balances.parents.BalanceManager;
+import me.polardyth.polareconomy.economy.EconomyManager;
+import me.polardyth.polareconomy.economy.balances.parents.StoredMoneyManager;
 import me.polardyth.polareconomy.menus.banker.BankerMainPage;
 import me.polardyth.polareconomy.utils.MiniColor;
 import net.kyori.adventure.text.Component;
@@ -19,12 +19,12 @@ import java.util.logging.Logger;
 
 public class SignGUIListener implements Listener {
 
-    private final IEconomyManager economyManager;
+    private final EconomyManager economyManager;
     private final Material blockSave;
     private final Location location;
     private final boolean deposit;
 
-    public SignGUIListener(IEconomyManager economyManager, Location location, Material blockSave, boolean deposit) {
+    public SignGUIListener(EconomyManager economyManager, Location location, Material blockSave, boolean deposit) {
         this.economyManager = economyManager;
         this.location = location;
         this.blockSave = blockSave;
@@ -34,8 +34,8 @@ public class SignGUIListener implements Listener {
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
 
-        IBalanceManager purse = economyManager.getBalanceManager(BalanceType.PURSE);
-        IStoredMoney bank = economyManager.getStoredMoneyManager(BalanceType.BANK);
+        BalanceManager purse = economyManager.getBalanceManager(BalanceType.PURSE);
+        StoredMoneyManager bank = economyManager.getStoredMoneyManager(BalanceType.BANK);
 
         // Handle sign change event
         Logger.getLogger("Minecraft").info("Debug: Block is currently " + event.getBlock().getLocation() + " and the location is " + location);

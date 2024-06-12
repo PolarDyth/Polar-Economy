@@ -1,13 +1,14 @@
 package me.polardyth.polareconomy.economy.balances;
 
+import me.polardyth.polareconomy.economy.balances.interfaces.MoneyType;
 import me.polardyth.polareconomy.economy.balances.parents.StoredMoneyManager;
-import me.polardyth.polareconomy.utils.config.interfaces.FileHandler;
-import org.bukkit.configuration.file.FileConfiguration;
+import me.polardyth.polareconomy.systems.transactionhistory.TransactionSource;
+import me.polardyth.polareconomy.utils.files.interfaces.FileHandler;
 
-public class Bank extends StoredMoneyManager {
+public class Bank extends StoredMoneyManager implements MoneyType {
 
     public Bank(FileHandler dataFile, String target) {
-        super(dataFile, target);
+        super(dataFile, target, TransactionSource.BANK);
     }
 
     @Override

@@ -1,7 +1,6 @@
-package me.polardyth.polareconomy.utils.config;
+package me.polardyth.polareconomy.utils.files;
 
-import me.polardyth.polareconomy.utils.config.interfaces.FileHandler;
-import me.polardyth.polareconomy.utils.config.interfaces.IDataFiles;
+import me.polardyth.polareconomy.utils.files.interfaces.FileHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 

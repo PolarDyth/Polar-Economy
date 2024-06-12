@@ -1,7 +1,7 @@
-package me.polardyth.polareconomy.utils.config;
+package me.polardyth.polareconomy.utils.files;
 
 import me.polardyth.polareconomy.PolarSettings;
-import me.polardyth.polareconomy.utils.config.interfaces.FileHandler;
+import me.polardyth.polareconomy.utils.files.interfaces.FileHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -9,20 +9,15 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
-class DataManager implements FileHandler {
+public class ConfigManager implements FileHandler {
 
     private final String fileName;
-    private final File folder;
     private File file;
     private FileConfiguration fileConfiguration;
 
-    protected DataManager(@NotNull String fileName) {
+    protected ConfigManager(@NotNull String fileName) {
         if (!fileName.endsWith(".yml")) fileName += ".yml";
         this.fileName = fileName;
-        folder = new File(PolarSettings.getPlugin().getDataFolder(), "data");
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
 
         save();
         reload();
@@ -30,7 +25,7 @@ class DataManager implements FileHandler {
     }
 
     private @NotNull File file() {
-        return new File(folder, fileName);
+        return new File(PolarSettings.getPlugin().getDataFolder(), fileName);
     }
 
     public FileConfiguration getConfig() { return fileConfiguration; }
@@ -50,7 +45,7 @@ class DataManager implements FileHandler {
     public void save() {
         if (file == null) file = file();
         if (file.exists()) return;
-        PolarSettings.getPlugin().saveResource("data/" + fileName, false);
+        PolarSettings.getPlugin().saveResource(fileName, false);
     }
 
     /**
@@ -60,6 +55,7 @@ class DataManager implements FileHandler {
         fileConfiguration = YamlConfiguration.loadConfiguration(file());
     }
 
+    @Override
     public String getFileName() {
         return fileName;
     }

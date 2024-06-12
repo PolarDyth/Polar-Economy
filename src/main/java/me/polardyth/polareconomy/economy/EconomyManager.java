@@ -1,29 +1,28 @@
 package me.polardyth.polareconomy.economy;
 
 import me.polardyth.polareconomy.economy.balances.BalanceType;
-import me.polardyth.polareconomy.economy.balances.interfaces.IBalanceManager;
-import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
-import me.polardyth.polareconomy.economy.balances.interfaces.IStoredMoney;
+import me.polardyth.polareconomy.economy.balances.parents.BalanceManager;
+import me.polardyth.polareconomy.economy.balances.parents.StoredMoneyManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class EconomyManager implements IEconomyManager {
+public class EconomyManager {
 
-    private final Map<BalanceType, IBalanceManager> balanceManagers = new HashMap<>();
+    private final Map<BalanceType, BalanceManager> balanceManagers = new HashMap<>();
 
-    public EconomyManager(IBalanceManager... balanceManager) {
+    public EconomyManager(BalanceManager... balanceManager) {
 
-        for (IBalanceManager manager : balanceManager) {
+        for (BalanceManager manager : balanceManager) {
             this.balanceManagers.put(manager.getType(), manager);
         }
     }
 
-    public IBalanceManager getBalanceManager(BalanceType type) {
+    public BalanceManager getBalanceManager(BalanceType type) {
         return this.balanceManagers.get(type);
     }
 
-    public IStoredMoney getStoredMoneyManager(BalanceType type) {
-        return (IStoredMoney) this.balanceManagers.get(type);
+    public StoredMoneyManager getStoredMoneyManager(BalanceType type) {
+        return (StoredMoneyManager) this.balanceManagers.get(type);
     }
 }

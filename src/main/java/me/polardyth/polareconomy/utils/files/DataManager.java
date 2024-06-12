@@ -1,7 +1,7 @@
-package me.polardyth.polareconomy.utils.config;
+package me.polardyth.polareconomy.utils.files;
 
 import me.polardyth.polareconomy.PolarSettings;
-import me.polardyth.polareconomy.utils.config.interfaces.FileHandler;
+import me.polardyth.polareconomy.utils.files.interfaces.FileHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -9,15 +9,20 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
-public class ConfigManager implements FileHandler {
+class DataManager implements FileHandler {
 
     private final String fileName;
+    private final File folder;
     private File file;
     private FileConfiguration fileConfiguration;
 
-    protected ConfigManager(@NotNull String fileName) {
+    protected DataManager(@NotNull String fileName) {
         if (!fileName.endsWith(".yml")) fileName += ".yml";
         this.fileName = fileName;
+        folder = new File(PolarSettings.getPlugin().getDataFolder(), "data");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
 
         save();
         reload();
@@ -25,7 +30,7 @@ public class ConfigManager implements FileHandler {
     }
 
     private @NotNull File file() {
-        return new File(PolarSettings.getPlugin().getDataFolder(), fileName);
+        return new File(folder, fileName);
     }
 
     public FileConfiguration getConfig() { return fileConfiguration; }
@@ -45,7 +50,7 @@ public class ConfigManager implements FileHandler {
     public void save() {
         if (file == null) file = file();
         if (file.exists()) return;
-        PolarSettings.getPlugin().saveResource(fileName, false);
+        PolarSettings.getPlugin().saveResource("data/" + fileName, false);
     }
 
     /**
@@ -55,7 +60,6 @@ public class ConfigManager implements FileHandler {
         fileConfiguration = YamlConfiguration.loadConfiguration(file());
     }
 
-    @Override
     public String getFileName() {
         return fileName;
     }

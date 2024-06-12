@@ -1,4 +1,4 @@
-package me.polardyth.polareconomy.utils.config.interfaces;
+package me.polardyth.polareconomy.utils.files.interfaces;
 
 import org.bukkit.configuration.file.FileConfiguration;
 

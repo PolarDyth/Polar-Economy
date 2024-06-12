@@ -1,6 +1,6 @@
 package me.polardyth.polareconomy.menus.banker.parents;
 
-import me.polardyth.polareconomy.economy.balances.interfaces.IStoredMoney;
+import me.polardyth.polareconomy.economy.balances.parents.StoredMoneyManager;
 import me.polardyth.polareconomy.placeholders.Placeholder;
 import me.polardyth.polareconomy.utils.MenuMaker;
 import me.polardyth.polareconomy.utils.MiniColor;
@@ -15,10 +15,10 @@ import java.util.List;
 
 public abstract class BankerDefault extends MenuMaker {
 
-    private final IStoredMoney bank;
+    private final StoredMoneyManager bank;
     private final Player player;
 
-    public BankerDefault(IStoredMoney bank, Player player) {
+    public BankerDefault(StoredMoneyManager bank, Player player) {
         super(36, "Banker");
 
         this.bank = bank;

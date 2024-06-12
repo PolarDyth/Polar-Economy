@@ -1,7 +1,7 @@
 package me.polardyth.polareconomy.commands;
 
 import me.polardyth.polareconomy.menus.banker.BankerMainPage;
-import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
+import me.polardyth.polareconomy.economy.EconomyManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -12,9 +12,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class BankCommand implements CommandExecutor {
 
-    private final IEconomyManager economyManager;
+    private final EconomyManager economyManager;
 
-    public BankCommand(IEconomyManager economyManager) {
+    public BankCommand(EconomyManager economyManager) {
         this.economyManager = economyManager;
     }
 

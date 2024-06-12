@@ -1,7 +1,7 @@
 package me.polardyth.polareconomy.listeners;
 
 import me.polardyth.polareconomy.economy.balances.BalanceType;
-import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
+import me.polardyth.polareconomy.economy.EconomyManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,9 +13,9 @@ import java.util.logging.Logger;
 public class PlayerJoinBalanceCorrection implements Listener {
 
     private final FileConfiguration config;
-    private final IEconomyManager economyManager;
+    private final EconomyManager economyManager;
 
-    public PlayerJoinBalanceCorrection(FileConfiguration config, IEconomyManager economyManager) {
+    public PlayerJoinBalanceCorrection(FileConfiguration config, EconomyManager economyManager) {
         this.config = config;
         this.economyManager = economyManager;
     }

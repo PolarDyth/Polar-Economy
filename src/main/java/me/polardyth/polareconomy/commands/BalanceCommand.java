@@ -1,10 +1,8 @@
 package me.polardyth.polareconomy.commands;
 
 import me.polardyth.polareconomy.PolarSettings;
-import me.polardyth.polareconomy.economy.balances.interfaces.IBalanceManager;
-import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
+import me.polardyth.polareconomy.economy.balances.parents.BalanceManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
-import me.polardyth.polareconomy.utils.config.SettingsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,10 +12,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class BalanceCommand implements CommandExecutor {
 
-    private final IBalanceManager purse;
+    private final BalanceManager purse;
     private final FileConfiguration config;
 
-    public BalanceCommand(IBalanceManager purse) {
+    public BalanceCommand(BalanceManager purse) {
         this.purse = purse;
         config = PolarSettings.getPlugin().getConfig();
 

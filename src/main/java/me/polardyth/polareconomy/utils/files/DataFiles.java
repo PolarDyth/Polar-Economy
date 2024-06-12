@@ -1,13 +1,11 @@
-package me.polardyth.polareconomy.utils.config;
+package me.polardyth.polareconomy.utils.files;
 
-import me.polardyth.polareconomy.utils.config.interfaces.FileHandler;
-import me.polardyth.polareconomy.utils.config.interfaces.IDataFiles;
-import org.bukkit.configuration.file.FileConfiguration;
+import me.polardyth.polareconomy.utils.files.interfaces.FileHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class DataFiles implements IDataFiles {
+public class DataFiles {
 
     private final Map<String, FileHandler> data;
 
@@ -18,7 +16,6 @@ public class DataFiles implements IDataFiles {
         }
     }
 
-    @Override
     public FileHandler getFile(String fileName) {
         return data.get(fileName);
     }

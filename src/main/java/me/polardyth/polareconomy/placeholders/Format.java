@@ -20,7 +20,8 @@ public class Format {
         return NumberFormat.getInstance().format(amount);
     }
 
-    public static String formatTime(long timeInSeconds) {
+    public static String formatTime(long timeInMilliseconds) {
+        long timeInSeconds = timeInMilliseconds / 1000;
         long days = timeInSeconds / 86400;
         long hours = (timeInSeconds % 86400) / 3600;
         long minutes = (timeInSeconds % 3600) / 60;

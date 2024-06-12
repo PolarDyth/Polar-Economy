@@ -1,11 +1,10 @@
 package me.polardyth.polareconomy.commands;
 
 import me.polardyth.polareconomy.PolarSettings;
+import me.polardyth.polareconomy.economy.EconomyManager;
 import me.polardyth.polareconomy.economy.balances.BalanceType;
-import me.polardyth.polareconomy.economy.balances.interfaces.IBalanceManager;
-import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
+import me.polardyth.polareconomy.economy.balances.parents.BalanceManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
-import me.polardyth.polareconomy.utils.config.SettingsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -21,9 +20,9 @@ import java.util.logging.Logger;
 public class SetBalanceCommand implements CommandExecutor {
 
     private final FileConfiguration config;
-    private final IBalanceManager purse;
+    private final BalanceManager purse;
 
-    public SetBalanceCommand(IEconomyManager economyManager) {
+    public SetBalanceCommand(EconomyManager economyManager) {
         purse = economyManager.getBalanceManager(BalanceType.PURSE);
         config = PolarSettings.getConfigFiles().getFile("config").getConfig();
     }

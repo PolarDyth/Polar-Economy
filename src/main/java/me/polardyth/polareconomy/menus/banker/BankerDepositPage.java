@@ -1,10 +1,10 @@
 package me.polardyth.polareconomy.menus.banker;
 
 import me.polardyth.polareconomy.PolarSettings;
+import me.polardyth.polareconomy.economy.EconomyManager;
 import me.polardyth.polareconomy.economy.balances.BalanceType;
-import me.polardyth.polareconomy.economy.balances.interfaces.IBalanceManager;
-import me.polardyth.polareconomy.economy.balances.interfaces.IEconomyManager;
-import me.polardyth.polareconomy.economy.balances.interfaces.IStoredMoney;
+import me.polardyth.polareconomy.economy.balances.parents.BalanceManager;
+import me.polardyth.polareconomy.economy.balances.parents.StoredMoneyManager;
 import me.polardyth.polareconomy.listeners.SignGUIListener;
 import me.polardyth.polareconomy.menus.SignGUI;
 import me.polardyth.polareconomy.menus.banker.parents.BankerDefault;
@@ -22,11 +22,11 @@ import java.util.List;
 public class BankerDepositPage extends BankerDefault {
 
     private final FileConfiguration config;
-    private final IEconomyManager economyManager;
-    private final IStoredMoney bank;
-    private final IBalanceManager purse;
+    private final EconomyManager economyManager;
+    private final StoredMoneyManager bank;
+    private final BalanceManager purse;
 
-    public BankerDepositPage(IEconomyManager economyManager, Player player) {
+    public BankerDepositPage(EconomyManager economyManager, Player player) {
         super(economyManager.getStoredMoneyManager(BalanceType.BANK), player);
 
         this.economyManager = economyManager;
