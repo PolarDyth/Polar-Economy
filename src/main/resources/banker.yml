@@ -18,7 +18,7 @@ menu:
     withdraw-button:
       title: '<green>Withdraw Coins'
       lore:
-        - '<gray>Current Balance: <gold>{balance}'
+        - '<gray>Current Balance: <gold>{bank_balance}'
         - ''
         - '<gray>Take coins out of the bank in'
         - '<gray>order to spend them.'
@@ -105,3 +105,7 @@ menu:
       title: '<green>Go back'
       lore:
         - '<gray>To Personal Bank Account'
+
+messages:
+  withdraw: '<green>You have withdrawn <gold>{amount_formatted} coins<green>! you now have <gold>{bank_balance_formatted} coins<green> in your bank account.'
+  deposit: '<green>You have deposited <gold>{amount_formatted} coins<green>! you now have <gold>{bank_balance_formatted} coins<green> in your bank account.'

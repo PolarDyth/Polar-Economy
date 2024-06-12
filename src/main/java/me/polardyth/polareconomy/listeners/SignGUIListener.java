@@ -1,9 +1,11 @@
 package me.polardyth.polareconomy.listeners;
 
-import me.polardyth.polareconomy.menus.bankermenu.BankerMainPage;
-import me.polardyth.polareconomy.systems.MiniColor;
-import me.polardyth.polareconomy.utils.BankBalanceEditor;
-import me.polardyth.polareconomy.utils.EconomyManager;
+import me.polardyth.polareconomy.economy.balances.BalanceType;
+import me.polardyth.polareconomy.economy.balances.parents.BalanceManager;
+import me.polardyth.polareconomy.economy.EconomyManager;
+import me.polardyth.polareconomy.economy.balances.parents.StoredMoneyManager;
+import me.polardyth.polareconomy.menus.banker.BankerMainPage;
+import me.polardyth.polareconomy.utils.MiniColor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,7 +34,8 @@ public class SignGUIListener implements Listener {
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
 
-        BankBalanceEditor bankBalanceEditor = new BankBalanceEditor(economyManager, event.getPlayer());
+        BalanceManager purse = economyManager.getBalanceManager(BalanceType.PURSE);
+        StoredMoneyManager bank = economyManager.getStoredMoneyManager(BalanceType.BANK);
 
         // Handle sign change event
         Logger.getLogger("Minecraft").info("Debug: Block is currently " + event.getBlock().getLocation() + " and the location is " + location);
@@ -44,11 +47,11 @@ public class SignGUIListener implements Listener {
             try {
                 // Handle the amount
                 assert lines != null;
-                double amount = Double.parseDouble(MiniColor.TEXT.serialise(lines));
+                int amount = Integer.parseInt(MiniColor.TEXT.serialise(lines));
                 if (deposit) {
-                    bankBalanceEditor.depositFunds(amount);
+                    bank.depositFunds(amount, player, purse);
                 } else {
-                    bankBalanceEditor.withdrawFunds(amount);
+                    bank.withdrawFunds(amount, player, purse);
                 }
                 BankerMainPage mainPaige = new BankerMainPage(economyManager, player);
                 mainPaige.open(player);

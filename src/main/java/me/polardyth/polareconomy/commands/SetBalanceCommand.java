@@ -1,8 +1,10 @@
 package me.polardyth.polareconomy.commands;
 
-import me.polardyth.polareconomy.utils.EconomyManager;
+import me.polardyth.polareconomy.PolarSettings;
+import me.polardyth.polareconomy.economy.EconomyManager;
+import me.polardyth.polareconomy.economy.balances.BalanceType;
+import me.polardyth.polareconomy.economy.balances.parents.BalanceManager;
 import me.polardyth.polareconomy.utils.MessageUtil;
-import me.polardyth.polareconomy.utils.config.SettingsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -17,13 +19,12 @@ import java.util.logging.Logger;
 
 public class SetBalanceCommand implements CommandExecutor {
 
-    private final EconomyManager economyManager;
     private final FileConfiguration config;
+    private final BalanceManager purse;
 
     public SetBalanceCommand(EconomyManager economyManager) {
-        this.economyManager = economyManager;
-        SettingsManager configFiles = economyManager.getConfigs();
-        config = configFiles.getConfig("config");
+        purse = economyManager.getBalanceManager(BalanceType.PURSE);
+        config = PolarSettings.getConfigFiles().getFile("config").getConfig();
     }
 
     @Override
@@ -45,42 +46,22 @@ public class SetBalanceCommand implements CommandExecutor {
             return true;
         }
 
-        double amount;
+        int amount;
         try {
-            amount = Double.parseDouble(strings[1]);
+            amount = Integer.parseInt(strings[1]);
         } catch (NumberFormatException e) {
             commandSender.sendRichMessage(MessageUtil.getNotNumberMessage());
             Logger.getLogger("Minecraft").log(Level.WARNING, "Failed to parse amount: " + strings[1]);
             return true;
         }
 
-        if (amount <= 0) {
-            commandSender.sendRichMessage(MessageUtil.getNegativeNumberMessage());
-            return true;
-        }
-
-
-
-        if (hasTooManyDecimals(amount)) {
-            commandSender.sendRichMessage(MessageUtil.getTooManyDecimalsMessage());
-            return true;
-        }
-
-        economyManager.setPurseBalance(target.getUniqueId(), amount);
-        commandSender.sendRichMessage(config.getString("set-balance.success-to-player").replace("{amount}", Double.toString(amount)).replace("{target}", target.getName()));
+        purse.setBalance(target.getUniqueId(), amount);
+        commandSender.sendRichMessage(config.getString("set-balance.success-to-player").replace("{amount}", Integer.toString(amount)).replace("{target}", target.getName()));
 
         if (target.isOnline() && config.getBoolean("set-balance.send-message-to-target")) {
-            ((Player) target).sendRichMessage(config.getString("set-balance.success-to-target").replace("{amount}", Double.toString(amount)));
+            ((Player) target).sendRichMessage(config.getString("set-balance.success-to-target").replace("{amount}", Integer.toString(amount)));
         }
 
         return true;
-    }
-
-    private boolean hasTooManyDecimals(double amount) {
-        String text = Double.toString(amount);
-        int integerPlace = text.indexOf('.');
-        int decimalPlace = text.length() - integerPlace - 1;
-
-        return decimalPlace > 2;
     }
 }

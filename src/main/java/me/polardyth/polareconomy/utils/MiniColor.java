@@ -1,4 +1,4 @@
-package me.polardyth.polareconomy.systems;
+package me.polardyth.polareconomy.utils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;

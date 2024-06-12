@@ -1,6 +1,7 @@
-package me.polardyth.polareconomy.utils.config;
+package me.polardyth.polareconomy.utils.files;
 
 import me.polardyth.polareconomy.PolarSettings;
+import me.polardyth.polareconomy.utils.files.interfaces.FileHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +33,7 @@ class DataManager implements FileHandler {
         return new File(folder, fileName);
     }
 
-    public FileConfiguration options() { return fileConfiguration; }
+    public FileConfiguration getConfig() { return fileConfiguration; }
 
     /**
      * Saves any changes to the FileConfiguration to the file on the server

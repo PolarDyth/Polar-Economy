@@ -1,4 +1,4 @@
-package me.polardyth.polareconomy.systems;
+package me.polardyth.polareconomy.utils;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;

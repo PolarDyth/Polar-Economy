@@ -96,11 +96,15 @@ $RECYCLE.BIN/
 *.lnk
 
 target/
-
+.mvn
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
+
+# Gradle files
+build/
+.gradle/
 
 release.properties
 dependency-reduced-pom.xml
